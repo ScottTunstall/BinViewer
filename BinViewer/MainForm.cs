@@ -35,12 +35,32 @@ namespace BinViewer
             if (result != DialogResult.OK)
                 return;
 
-            if (_stream!=null)
-                _stream.Dispose();
-
+            _stream?.Dispose();
             _stream = new MemoryStream(File.ReadAllBytes(openFileDialog.FileName));
+
             EnableEditing();
             pictureBox1.Invalidate();
+        }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _stream?.Dispose();
+            _stream = null;
+
+            pictureBox1.Invalidate();
+            DisableEditing();
+        }
+
+
+
+        private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using Image img = new Bitmap(pictureBox1.Width, pictureBox1.Height); 
+            using var g = Graphics.FromImage(img);
+
+            g.CopyFromScreen(PointToScreen(pictureBox1.Location), new Point(0, 0), new Size(pictureBox1.Width, pictureBox1.Height));
+
+            Clipboard.SetImage(img);
         }
 
 
@@ -85,20 +105,32 @@ namespace BinViewer
             _stream.Position = offset;
             _stream.Read(buffer, 0, bufferSize);
 
-            var renderer = new PixelRenderer(buffer, bytesPerRow, rows, e.Graphics, 0, 0, 1 << _zoomFactor, 1 << _zoomFactor, backGroundBrush, foreGroundBrush);
+            var renderParams = new PixelRenderParams(buffer, bytesPerRow, rows, e.Graphics, 0, 0, 1 << _zoomFactor,
+                1 << _zoomFactor, backGroundBrush, foreGroundBrush);
+            var renderer = new PixelRenderer(renderParams);
             renderer.Render();
         }
 
         void EnableEditing()
         {
+            editToolStripMenuItem.Enabled = true;
             viewToolStripMenuItem.Enabled = true;
-            zoomInToolStripMenuItem.Enabled = true;
-            zoomOutToolStripMenuItem.Enabled = true;
-            resetZoomToolStripMenuItem.Enabled = true;
+            closeToolStripMenuItem.Enabled = true;
 
             offsetUpDown.Enabled = true;
             bytesPerRowUpdown.Enabled = true;
             rowsUpDown.Enabled = true;
+        }
+
+        private void DisableEditing()
+        {
+            editToolStripMenuItem.Enabled = false;
+            viewToolStripMenuItem.Enabled = false;
+            closeToolStripMenuItem.Enabled = false;
+
+            offsetUpDown.Enabled = false;
+            bytesPerRowUpdown.Enabled = false;
+            rowsUpDown.Enabled = false;
         }
 
 
