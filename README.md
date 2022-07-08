@@ -6,7 +6,7 @@ You can zoom in or out with CTRL+numpad plus/minus
 
 Feel free to clone, fork, create a pull request. If you do adapt this though, please give me credit.
 
-BTW: Use at your own risk. It probably has memory leaks somewhere. I will try and iron these out.
+BTW: Use at your own risk. It probably has MemorySteam memory leaks somewhere. I will try and iron these out.
 
 Next steps planned: 
 
