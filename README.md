@@ -16,5 +16,5 @@ Next steps planned:
 * overlay grid 
 
 
-Do not expect this code to be SOLID, this is a means to an end to help me find sprites in games I am reverse engineering.
+Do not expect this code to be SOLID, this tool is a quick and dirty means to an end. 
 I may refactor when I have time.
