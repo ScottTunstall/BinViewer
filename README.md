@@ -14,3 +14,7 @@ Next steps planned:
 * copy image to clipboard
 * show bytes as hex next to image
 * overlay grid 
+
+
+Do not expect this code to be SOLID, this is a means to an end to help me find sprites in games I am reverse engineering.
+I may refactor when I have time.
