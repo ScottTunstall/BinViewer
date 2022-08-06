@@ -10,8 +10,8 @@ BTW: Use at your own risk. It probably has MemorySteam memory leaks somewhere. I
 
 Next steps planned: 
 
-* export as binary DB statements (so you can paste into assembly code)
-* copy image to clipboard
+* export as binary DB statements (so you can paste into assembly code) - DONE
+* copy image to clipboard  (DONE)
 * show bytes as hex next to image
 * overlay grid 
 
