@@ -14,3 +14,7 @@ Next steps planned:
 * copy image to clipboard
 * show bytes as hex next to image
 * overlay grid 
+
+
+Do not expect this code to be SOLID, this tool is a quick and dirty means to an end. 
+I may refactor when I have time.
