@@ -33,7 +33,8 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copyToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyAsBinaryToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copyRenderAreaToClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetZoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,7 +76,7 @@
             this.fileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
-            this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
@@ -97,20 +98,28 @@
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToClipboardToolStripMenuItem});
+            this.copyAsBinaryToClipboardToolStripMenuItem,
+            this.copyRenderAreaToClipboardToolStripMenuItem});
             this.editToolStripMenuItem.Enabled = false;
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.editToolStripMenuItem.Size = new System.Drawing.Size(58, 29);
-            this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Text = "&Edit";
             // 
-            // copyToClipboardToolStripMenuItem
+            // copyAsBinaryToClipboardToolStripMenuItem
             // 
-            this.copyToClipboardToolStripMenuItem.Name = "copyToClipboardToolStripMenuItem";
-            this.copyToClipboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copyToClipboardToolStripMenuItem.Size = new System.Drawing.Size(414, 34);
-            this.copyToClipboardToolStripMenuItem.Text = "Copy render area to clipboard";
-            this.copyToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyToClipboardToolStripMenuItem_Click);
+            this.copyAsBinaryToClipboardToolStripMenuItem.Name = "copyAsBinaryToClipboardToolStripMenuItem";
+            this.copyAsBinaryToClipboardToolStripMenuItem.Size = new System.Drawing.Size(414, 34);
+            this.copyAsBinaryToClipboardToolStripMenuItem.Text = "Copy as binary to clipboard..";
+            this.copyAsBinaryToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyAsBinaryToClipboardToolStripMenuItem_Click);
+            // 
+            // copyRenderAreaToClipboardToolStripMenuItem
+            // 
+            this.copyRenderAreaToClipboardToolStripMenuItem.Name = "copyRenderAreaToClipboardToolStripMenuItem";
+            this.copyRenderAreaToClipboardToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copyRenderAreaToClipboardToolStripMenuItem.Size = new System.Drawing.Size(414, 34);
+            this.copyRenderAreaToClipboardToolStripMenuItem.Text = "Copy render area to clipboard";
+            this.copyRenderAreaToClipboardToolStripMenuItem.Click += new System.EventHandler(this.copyRenderAreaToClipboardToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -121,7 +130,7 @@
             this.viewToolStripMenuItem.Enabled = false;
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(65, 29);
-            this.viewToolStripMenuItem.Text = "View";
+            this.viewToolStripMenuItem.Text = "&View";
             // 
             // resetZoomToolStripMenuItem
             // 
@@ -166,8 +175,8 @@
             this.label1.Location = new System.Drawing.Point(15, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(103, 25);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Offset (hex)";
+            this.label1.TabIndex = 1;
+            this.label1.Text = "&Offset (hex)";
             // 
             // offsetUpDown
             // 
@@ -181,7 +190,7 @@
             0});
             this.offsetUpDown.Name = "offsetUpDown";
             this.offsetUpDown.Size = new System.Drawing.Size(132, 31);
-            this.offsetUpDown.TabIndex = 3;
+            this.offsetUpDown.TabIndex = 2;
             this.offsetUpDown.ValueChanged += new System.EventHandler(this.offsetUpDown_ValueChanged);
             // 
             // label2
@@ -190,8 +199,8 @@
             this.label2.Location = new System.Drawing.Point(281, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(120, 25);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Bytes per row";
+            this.label2.TabIndex = 3;
+            this.label2.Text = "&Bytes per row";
             // 
             // bytesPerRowUpdown
             // 
@@ -204,7 +213,7 @@
             0});
             this.bytesPerRowUpdown.Name = "bytesPerRowUpdown";
             this.bytesPerRowUpdown.Size = new System.Drawing.Size(90, 31);
-            this.bytesPerRowUpdown.TabIndex = 5;
+            this.bytesPerRowUpdown.TabIndex = 4;
             this.bytesPerRowUpdown.Value = new decimal(new int[] {
             1,
             0,
@@ -215,16 +224,16 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(543, 49);
+            this.label3.Location = new System.Drawing.Point(532, 49);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(54, 25);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Rows";
+            this.label3.TabIndex = 5;
+            this.label3.Text = "&Rows";
             // 
             // rowsUpDown
             // 
             this.rowsUpDown.Enabled = false;
-            this.rowsUpDown.Location = new System.Drawing.Point(603, 49);
+            this.rowsUpDown.Location = new System.Drawing.Point(592, 49);
             this.rowsUpDown.Maximum = new decimal(new int[] {
             256,
             0,
@@ -237,7 +246,7 @@
             0});
             this.rowsUpDown.Name = "rowsUpDown";
             this.rowsUpDown.Size = new System.Drawing.Size(82, 31);
-            this.rowsUpDown.TabIndex = 7;
+            this.rowsUpDown.TabIndex = 6;
             this.rowsUpDown.Value = new decimal(new int[] {
             1,
             0,
@@ -265,6 +274,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Binary to pixel viewer";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -295,7 +305,8 @@
         private NumericUpDown rowsUpDown;
         private OpenFileDialog openFileDialog;
         private ToolStripMenuItem editToolStripMenuItem;
-        private ToolStripMenuItem copyToClipboardToolStripMenuItem;
+        private ToolStripMenuItem copyRenderAreaToClipboardToolStripMenuItem;
         private ToolStripMenuItem closeToolStripMenuItem;
+        private ToolStripMenuItem copyAsBinaryToClipboardToolStripMenuItem;
     }
 }

@@ -2,16 +2,15 @@ namespace BinViewer
 {
     public partial class MainForm : Form
     {
-        private const int DEFAULT_ZOOM_FACTOR = 3;
+        private const int DefaultZoomFactor = 3;
 
-        private MemoryStream? _stream;
-        int _zoomFactor = DEFAULT_ZOOM_FACTOR;
+        private readonly SpriteMemoryManager _memoryManager = new();
+        int _zoomFactor = DefaultZoomFactor;
 
         public MainForm()
         {
             InitializeComponent();
         }
-
 
 
         private void offsetUpDown_ValueChanged(object sender, EventArgs e)
@@ -23,6 +22,7 @@ namespace BinViewer
         {
             pictureBox1.Invalidate();
         }
+
         private void rowsUpDown_ValueChanged(object sender, EventArgs e)
         {
             pictureBox1.Invalidate();
@@ -35,8 +35,7 @@ namespace BinViewer
             if (result != DialogResult.OK)
                 return;
 
-            _stream?.Dispose();
-            _stream = new MemoryStream(File.ReadAllBytes(openFileDialog.FileName));
+            _memoryManager.FromFile(openFileDialog.FileName);
 
             EnableEditing();
             pictureBox1.Invalidate();
@@ -44,16 +43,25 @@ namespace BinViewer
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _stream?.Dispose();
-            _stream = null;
+            _memoryManager.Close();
 
             pictureBox1.Invalidate();
             DisableEditing();
         }
 
 
+        private void copyAsBinaryToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var offset = (int)offsetUpDown.Value;
+            var bytesPerRow = (int)bytesPerRowUpdown.Value;
+            var rows = (int)rowsUpDown.Value;
 
-        private void copyToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+            var optionsForm = new CopyAsBinaryToClipboardForm(offset, bytesPerRow, rows, _memoryManager);
+            optionsForm.ShowDialog(this);
+        }
+
+
+        private void copyRenderAreaToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using Image img = new Bitmap(pictureBox1.Width, pictureBox1.Height); 
             using var g = Graphics.FromImage(img);
@@ -66,7 +74,7 @@ namespace BinViewer
 
         private void resetZoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _zoomFactor = DEFAULT_ZOOM_FACTOR;
+            _zoomFactor = DefaultZoomFactor;
             pictureBox1.Invalidate();
         }
 
@@ -90,7 +98,7 @@ namespace BinViewer
             using var backGroundBrush = new SolidBrush(pictureBox1.BackColor);
             e.Graphics.FillRectangle(backGroundBrush, e.ClipRectangle);
 
-            if (_stream == null)
+            if (!_memoryManager.HasData)
                 return;
 
             using var foreGroundBrush = new SolidBrush(Color.Black);
@@ -98,14 +106,10 @@ namespace BinViewer
             var offset = (int)offsetUpDown.Value;
             var bytesPerRow = (int)bytesPerRowUpdown.Value;
             var rows = (int)rowsUpDown.Value;
+            
+            var bytes = _memoryManager.GetBytes(offset, bytesPerRow * rows);
 
-            var bufferSize = bytesPerRow * rows;
-            var buffer = new byte[bufferSize];
-
-            _stream.Position = offset;
-            _stream.Read(buffer, 0, bufferSize);
-
-            var renderParams = new PixelRenderParams(buffer, bytesPerRow, rows, e.Graphics, 0, 0, 1 << _zoomFactor,
+            var renderParams = new PixelRenderParams(bytes, bytesPerRow, rows, e.Graphics, 0, 0, 1 << _zoomFactor,
                 1 << _zoomFactor, backGroundBrush, foreGroundBrush);
             var renderer = new PixelRenderer(renderParams);
             renderer.Render();
