@@ -248,7 +248,7 @@
             this.rowsUpDown.Size = new System.Drawing.Size(82, 31);
             this.rowsUpDown.TabIndex = 6;
             this.rowsUpDown.Value = new decimal(new int[] {
-            1,
+            8,
             0,
             0,
             0});

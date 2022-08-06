@@ -12,6 +12,9 @@ namespace BinViewer
 {
     public partial class CopyAsBinaryToClipboardForm : Form
     {
+        const int HexDigitsFor16BitAddress = 4;
+        const int HexDigitsFor32BitAddress = 8;
+        
         private readonly int _offset;
         private int _bytesPerRow;
         private readonly int _originalBytesPerRow;
@@ -21,6 +24,7 @@ namespace BinViewer
 
         private bool _requireOrigin;
         private string _separator = string.Empty;
+        private int _maxHexDigitsForAddress;
 
 
         public CopyAsBinaryToClipboardForm(int offset, int bytesPerRow, int rows, SpriteMemoryManager memoryManager)
@@ -33,76 +37,117 @@ namespace BinViewer
             _memoryManager = memoryManager;
 
             InitializeComponent();
-            
+           
         }
 
         private void CopyAsBinaryToClipboardForm_Load(object sender, EventArgs e)
         {
             _requireOrigin = IncludeMemoryAddressCheckBox.Checked;
-            SetBytesPerRow();
-            SetSeparator();
+            
+            SetBytesPerRowRadios();
+
+            SetRequireOriginFromCheckBox();
+            SetAddressPaddingFromRadios();
+            SetBytesPerRowFromRadios();
+            SetSeparatorFromRadios();
         }
-        
+
+
 
         private void IncludeMemoryAddressCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            var checkBox = (CheckBox)sender;
-            if (checkBox.Checked)
-                EnableOrigin();
-            else
-                DisableOrigin();
+            SetRequireOriginFromCheckBox();
+        }
+
+
+        private void FormatAddressesAsSixteenBitRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            SetAddressPaddingFromRadios();
+        }
+
+        private void FormatAddressesAsThirtyTwoBitRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            SetAddressPaddingFromRadios();
         }
 
         private void OneBytePerRowRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetBytesPerRow();
+            SetBytesPerRowFromRadios();
         }
 
         private void BytesPerRowRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetBytesPerRow();
+            SetBytesPerRowFromRadios();
         }
 
         private void SeparateBySpaceRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetSeparator();
+            SetSeparatorFromRadios();
         }
 
         private void SeparateByCommaRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetSeparator();
+            SetSeparatorFromRadios();
         }
 
         private void SeparateByNothingRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetSeparator();
+            SetSeparatorFromRadios();
         }
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
             var binary = new BinaryGenerator();
             var data = _memoryManager.GetBytes(_offset, _bytesPerRow * _rows);
-            var asBinaryStrings = binary.FromBytes(data, _bytesPerRow, _rows, _separator);
-            Clipboard.SetText(asBinaryStrings);
-            MessageBox.Show("Copied to clipboard.");
+
+            string asBinaryString;
+            if (_requireOrigin)
+            {
+                int origin = (int)OriginUpDown.Value;
+                asBinaryString = binary.FromBytes(data, origin, _maxHexDigitsForAddress, _bytesPerRow, _rows, _separator);
+            }
+            else
+            {
+                asBinaryString = binary.FromBytes(data, _bytesPerRow, _rows, _separator);
+            }
+
+            Clipboard.SetText(asBinaryString);
+
+            MessageBox.Show($"Copied binary for {_rows} row(s) to clipboard.");
         }
 
 
-        private void EnableOrigin()
+        private void SetRequireOriginFromCheckBox()
         {
-            _requireOrigin = true;
-            SetOriginLabel.Enabled = true;
-            OriginUpDown.Enabled = true;
+            _requireOrigin = IncludeMemoryAddressCheckBox.Checked;
+            SetOriginLabel.Enabled = IncludeMemoryAddressCheckBox.Checked;
+            OriginUpDown.Enabled = IncludeMemoryAddressCheckBox.Checked;
         }
 
-        private void DisableOrigin()
+
+        private void SetBytesPerRowRadios()
         {
-            _requireOrigin = false;
-            SetOriginLabel.Enabled = false;
-            OriginUpDown.Enabled = false;
+            OneBytePerRowRadioButton.Checked = _originalBytesPerRow == 1;
+            BytesPerRowRadioButton.Visible = _originalBytesPerRow > 1;
+            BytesPerRowRadioButton.Checked = _originalBytesPerRow > 1;
+            BytesPerRowRadioButton.Text = $"{_originalBytesPerRow} bytes per row";
         }
 
-        private void SetBytesPerRow()
+
+
+        private void SetAddressPaddingFromRadios()
+        {
+            if (FormatAddressesAsThirtyTwoBitRadioButton.Checked)
+            {
+                _maxHexDigitsForAddress = HexDigitsFor32BitAddress;
+                return;
+            }
+
+            _maxHexDigitsForAddress = HexDigitsFor16BitAddress;
+        }
+
+
+        private void SetBytesPerRowFromRadios()
         {
             if (OneBytePerRowRadioButton.Checked)
             {
@@ -115,7 +160,7 @@ namespace BinViewer
             _rows = _originalRows;
         }
 
-        private void SetSeparator()
+        private void SetSeparatorFromRadios()
         {
             if (SeparateByNothingRadioButton.Checked)
             {

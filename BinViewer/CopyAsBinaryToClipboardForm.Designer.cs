@@ -43,9 +43,14 @@
             this.BytesPerRowRadioButton = new System.Windows.Forms.RadioButton();
             this.OneBytePerRowRadioButton = new System.Windows.Forms.RadioButton();
             this.BytesPerRowLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.FormatAddressesAsThirtyTwoBitRadioButton = new System.Windows.Forms.RadioButton();
+            this.FormatAddressesAsSixteenBitRadioButton = new System.Windows.Forms.RadioButton();
+            this.FormatAddressesAsLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.OriginUpDown)).BeginInit();
             this.SeparateByteBitsByPanel.SuspendLayout();
             this.BytesPerRowPanel.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelSetOrigin
@@ -71,10 +76,10 @@
             // 
             // CopyButton
             // 
-            this.CopyButton.Location = new System.Drawing.Point(10, 158);
+            this.CopyButton.Location = new System.Drawing.Point(12, 211);
             this.CopyButton.Name = "CopyButton";
             this.CopyButton.Size = new System.Drawing.Size(112, 34);
-            this.CopyButton.TabIndex = 5;
+            this.CopyButton.TabIndex = 6;
             this.CopyButton.Text = "&Copy";
             this.CopyButton.UseVisualStyleBackColor = true;
             this.CopyButton.Click += new System.EventHandler(this.CopyButton_Click);
@@ -83,10 +88,10 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.button1.Location = new System.Drawing.Point(430, 158);
+            this.button1.Location = new System.Drawing.Point(425, 211);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 34);
-            this.button1.TabIndex = 6;
+            this.button1.TabIndex = 7;
             this.button1.Text = "Cancel";
             this.button1.UseVisualStyleBackColor = true;
             // 
@@ -118,10 +123,10 @@
             this.SeparateByteBitsByPanel.Controls.Add(this.SeparateByNothingRadioButton);
             this.SeparateByteBitsByPanel.Controls.Add(this.seperateByCommaRadioButton);
             this.SeparateByteBitsByPanel.Controls.Add(this.seperateBySpaceRadioButton);
-            this.SeparateByteBitsByPanel.Location = new System.Drawing.Point(15, 98);
+            this.SeparateByteBitsByPanel.Location = new System.Drawing.Point(15, 144);
             this.SeparateByteBitsByPanel.Name = "SeparateByteBitsByPanel";
             this.SeparateByteBitsByPanel.Size = new System.Drawing.Size(527, 44);
-            this.SeparateByteBitsByPanel.TabIndex = 10;
+            this.SeparateByteBitsByPanel.TabIndex = 5;
             // 
             // SeparateByteBitsByLabel
             // 
@@ -129,7 +134,7 @@
             this.SeparateByteBitsByLabel.Location = new System.Drawing.Point(8, 8);
             this.SeparateByteBitsByLabel.Name = "SeparateByteBitsByLabel";
             this.SeparateByteBitsByLabel.Size = new System.Drawing.Size(184, 25);
-            this.SeparateByteBitsByLabel.TabIndex = 13;
+            this.SeparateByteBitsByLabel.TabIndex = 0;
             this.SeparateByteBitsByLabel.Text = "Separate byte bits by:";
             // 
             // SeparateByNothingRadioButton
@@ -138,7 +143,7 @@
             this.SeparateByNothingRadioButton.Location = new System.Drawing.Point(420, 8);
             this.SeparateByNothingRadioButton.Name = "SeparateByNothingRadioButton";
             this.SeparateByNothingRadioButton.Size = new System.Drawing.Size(102, 29);
-            this.SeparateByNothingRadioButton.TabIndex = 12;
+            this.SeparateByNothingRadioButton.TabIndex = 3;
             this.SeparateByNothingRadioButton.Text = "Nothing";
             this.SeparateByNothingRadioButton.UseVisualStyleBackColor = true;
             this.SeparateByNothingRadioButton.CheckedChanged += new System.EventHandler(this.SeparateByNothingRadioButton_CheckedChanged);
@@ -149,7 +154,7 @@
             this.seperateByCommaRadioButton.Location = new System.Drawing.Point(304, 8);
             this.seperateByCommaRadioButton.Name = "seperateByCommaRadioButton";
             this.seperateByCommaRadioButton.Size = new System.Drawing.Size(100, 29);
-            this.seperateByCommaRadioButton.TabIndex = 11;
+            this.seperateByCommaRadioButton.TabIndex = 2;
             this.seperateByCommaRadioButton.Text = "Comma";
             this.seperateByCommaRadioButton.UseVisualStyleBackColor = true;
             this.seperateByCommaRadioButton.CheckedChanged += new System.EventHandler(this.SeparateByCommaRadioButton_CheckedChanged);
@@ -161,7 +166,7 @@
             this.seperateBySpaceRadioButton.Location = new System.Drawing.Point(208, 8);
             this.seperateBySpaceRadioButton.Name = "seperateBySpaceRadioButton";
             this.seperateBySpaceRadioButton.Size = new System.Drawing.Size(84, 29);
-            this.seperateBySpaceRadioButton.TabIndex = 10;
+            this.seperateBySpaceRadioButton.TabIndex = 1;
             this.seperateBySpaceRadioButton.TabStop = true;
             this.seperateBySpaceRadioButton.Text = "Space";
             this.seperateBySpaceRadioButton.UseVisualStyleBackColor = true;
@@ -172,10 +177,10 @@
             this.BytesPerRowPanel.Controls.Add(this.BytesPerRowRadioButton);
             this.BytesPerRowPanel.Controls.Add(this.OneBytePerRowRadioButton);
             this.BytesPerRowPanel.Controls.Add(this.BytesPerRowLabel);
-            this.BytesPerRowPanel.Location = new System.Drawing.Point(18, 52);
+            this.BytesPerRowPanel.Location = new System.Drawing.Point(18, 98);
             this.BytesPerRowPanel.Name = "BytesPerRowPanel";
             this.BytesPerRowPanel.Size = new System.Drawing.Size(524, 40);
-            this.BytesPerRowPanel.TabIndex = 11;
+            this.BytesPerRowPanel.TabIndex = 4;
             // 
             // BytesPerRowRadioButton
             // 
@@ -184,7 +189,7 @@
             this.BytesPerRowRadioButton.Location = new System.Drawing.Point(301, 6);
             this.BytesPerRowRadioButton.Name = "BytesPerRowRadioButton";
             this.BytesPerRowRadioButton.Size = new System.Drawing.Size(182, 29);
-            this.BytesPerRowRadioButton.TabIndex = 16;
+            this.BytesPerRowRadioButton.TabIndex = 2;
             this.BytesPerRowRadioButton.TabStop = true;
             this.BytesPerRowRadioButton.Text = "999 Bytes Per Row";
             this.BytesPerRowRadioButton.UseVisualStyleBackColor = true;
@@ -196,7 +201,7 @@
             this.OneBytePerRowRadioButton.Location = new System.Drawing.Point(205, 6);
             this.OneBytePerRowRadioButton.Name = "OneBytePerRowRadioButton";
             this.OneBytePerRowRadioButton.Size = new System.Drawing.Size(70, 29);
-            this.OneBytePerRowRadioButton.TabIndex = 15;
+            this.OneBytePerRowRadioButton.TabIndex = 1;
             this.OneBytePerRowRadioButton.Text = "One";
             this.OneBytePerRowRadioButton.UseVisualStyleBackColor = true;
             this.OneBytePerRowRadioButton.CheckedChanged += new System.EventHandler(this.OneBytePerRowRadioButton_CheckedChanged);
@@ -207,14 +212,58 @@
             this.BytesPerRowLabel.Location = new System.Drawing.Point(5, 8);
             this.BytesPerRowLabel.Name = "BytesPerRowLabel";
             this.BytesPerRowLabel.Size = new System.Drawing.Size(126, 25);
-            this.BytesPerRowLabel.TabIndex = 14;
+            this.BytesPerRowLabel.TabIndex = 0;
             this.BytesPerRowLabel.Text = "Bytes Per Row:";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.FormatAddressesAsThirtyTwoBitRadioButton);
+            this.panel1.Controls.Add(this.FormatAddressesAsSixteenBitRadioButton);
+            this.panel1.Controls.Add(this.FormatAddressesAsLabel);
+            this.panel1.Location = new System.Drawing.Point(18, 52);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(524, 40);
+            this.panel1.TabIndex = 3;
+            // 
+            // FormatAddressesAsThirtyTwoBitRadioButton
+            // 
+            this.FormatAddressesAsThirtyTwoBitRadioButton.AutoSize = true;
+            this.FormatAddressesAsThirtyTwoBitRadioButton.Location = new System.Drawing.Point(301, 6);
+            this.FormatAddressesAsThirtyTwoBitRadioButton.Name = "FormatAddressesAsThirtyTwoBitRadioButton";
+            this.FormatAddressesAsThirtyTwoBitRadioButton.Size = new System.Drawing.Size(85, 29);
+            this.FormatAddressesAsThirtyTwoBitRadioButton.TabIndex = 2;
+            this.FormatAddressesAsThirtyTwoBitRadioButton.Text = "32-bit";
+            this.FormatAddressesAsThirtyTwoBitRadioButton.UseVisualStyleBackColor = true;
+            this.FormatAddressesAsThirtyTwoBitRadioButton.CheckedChanged += new System.EventHandler(this.FormatAddressesAsThirtyTwoBitRadioButton_CheckedChanged);
+            // 
+            // FormatAddressesAsSixteenBitRadioButton
+            // 
+            this.FormatAddressesAsSixteenBitRadioButton.AutoSize = true;
+            this.FormatAddressesAsSixteenBitRadioButton.Checked = true;
+            this.FormatAddressesAsSixteenBitRadioButton.Location = new System.Drawing.Point(205, 6);
+            this.FormatAddressesAsSixteenBitRadioButton.Name = "FormatAddressesAsSixteenBitRadioButton";
+            this.FormatAddressesAsSixteenBitRadioButton.Size = new System.Drawing.Size(84, 29);
+            this.FormatAddressesAsSixteenBitRadioButton.TabIndex = 1;
+            this.FormatAddressesAsSixteenBitRadioButton.TabStop = true;
+            this.FormatAddressesAsSixteenBitRadioButton.Text = "16-Bit";
+            this.FormatAddressesAsSixteenBitRadioButton.UseVisualStyleBackColor = true;
+            this.FormatAddressesAsSixteenBitRadioButton.CheckedChanged += new System.EventHandler(this.FormatAddressesAsSixteenBitRadioButton_CheckedChanged);
+            // 
+            // FormatAddressesAsLabel
+            // 
+            this.FormatAddressesAsLabel.AutoSize = true;
+            this.FormatAddressesAsLabel.Location = new System.Drawing.Point(5, 8);
+            this.FormatAddressesAsLabel.Name = "FormatAddressesAsLabel";
+            this.FormatAddressesAsLabel.Size = new System.Drawing.Size(182, 25);
+            this.FormatAddressesAsLabel.TabIndex = 0;
+            this.FormatAddressesAsLabel.Text = "Format Addresses as:";
             // 
             // CopyAsBinaryToClipboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 201);
+            this.ClientSize = new System.Drawing.Size(559, 254);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.BytesPerRowPanel);
             this.Controls.Add(this.SeparateByteBitsByPanel);
             this.Controls.Add(this.SetOriginLabel);
@@ -233,6 +282,8 @@
             this.SeparateByteBitsByPanel.PerformLayout();
             this.BytesPerRowPanel.ResumeLayout(false);
             this.BytesPerRowPanel.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -255,5 +306,9 @@
         private RadioButton BytesPerRowRadioButton;
         private RadioButton OneBytePerRowRadioButton;
         private Label BytesPerRowLabel;
+        private Panel panel1;
+        private RadioButton FormatAddressesAsThirtyTwoBitRadioButton;
+        private RadioButton FormatAddressesAsSixteenBitRadioButton;
+        private Label FormatAddressesAsLabel;
     }
 }
