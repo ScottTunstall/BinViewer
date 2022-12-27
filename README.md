@@ -19,11 +19,15 @@ When the offset control is in focus, you can use **Page Up/Down** to page faster
 
 If you see any sprites you like and wish to clone (steal) for your own games, use the **Edit | Copy As Binary to clipboard** function. This will generate binary you can paste into your own assembly files.
 
+
+## Legalese
+
 Feel free to clone, fork, create a pull request. If you do adapt this though, please give me credit.
 
 BTW: Use at your own risk. It probably has MemorySteam memory leaks somewhere. I will try and iron these out.
 
-Next steps planned: 
+
+## Next steps planned: 
 
 * show bytes as hex next to image
 * overlay grid 
