@@ -3,7 +3,9 @@ View 1bpp pixel art from old arcade games/ spectrum / C64
 
 When you run the app simply "File | Open" the ROM file you think has character/sprite data in it, then find the correct offset, select bytes per row (1 byte = 8 pixels width) and how many rows tall the pixel data is. This is trial and error at the moment.
 
-You can zoom in or out with CTRL+numpad plus/minus
+You can zoom in or out with CTRL+numpad plus/minus, or input zoom factor into the zoom up/down control directly.
+
+When the offset control is in focus, you can use Page Up/Down to page faster through memory.
 
 Feel free to clone, fork, create a pull request. If you do adapt this though, please give me credit.
 
