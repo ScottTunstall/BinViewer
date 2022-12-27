@@ -20,6 +20,6 @@ Next steps planned:
 Do not expect this code to be SOLID, this tool is a quick and dirty means to an end. 
 I may refactor when I have time.
 
-Here is an example showing some sprites from the spectrum game "Manic Miner.z80".
+Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80".
 
 ![image](https://user-images.githubusercontent.com/34286887/209662519-1dfffa1d-651a-4d54-8834-67accd2c1310.png)
