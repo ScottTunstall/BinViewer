@@ -66,7 +66,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(875, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(890, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -169,7 +169,7 @@
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(12, 95);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(851, 343);
+            this.pictureBox1.Size = new System.Drawing.Size(861, 343);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
@@ -277,7 +277,7 @@
             // zoomUpDown
             // 
             this.zoomUpDown.Enabled = false;
-            this.zoomUpDown.Location = new System.Drawing.Point(781, 51);
+            this.zoomUpDown.Location = new System.Drawing.Point(790, 51);
             this.zoomUpDown.Maximum = new decimal(new int[] {
             16,
             0,
@@ -302,7 +302,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(875, 450);
+            this.ClientSize = new System.Drawing.Size(890, 450);
             this.Controls.Add(this.zoomUpDown);
             this.Controls.Add(this.zoomLabel);
             this.Controls.Add(this.rowsUpDown);
