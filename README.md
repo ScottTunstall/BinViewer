@@ -1,18 +1,45 @@
 # BinViewer
-View 1bpp pixel art from old arcade games/ spectrum / C64 
+View/ extract 1bpp pixel art/fonts from old arcade games/ spectrum / C64 / Amstrad CPC. 
 
-When you run the app simply "File | Open" the ROM file you think has character/sprite data in it, then find the correct offset, select bytes per row (1 byte = 8 pixels width) and how many rows tall the pixel data is. This is trial and error at the moment.
 
-You can zoom in or out with CTRL+numpad plus/minus
+## How to use
+
+When you run the app simply "File | Open" the ROM file you think has character/sprite data in it, then keep incrementing the offset up/down button until you see graphical data that looks promising. 
+
+Select bytes per row (1 byte = 8 pixels width) and how many rows tall the pixel data is, to get the sprite to look "right". 
+
+This is trial and error - but persevere and reap rewards!
+
+Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80".
+
+(Continued after image)
+
+![image](https://user-images.githubusercontent.com/34286887/209683347-021036d3-c69c-4d17-917f-4dccfc2ccd27.png)
+
+
+### Keyboard shortcuts
+
+You can zoom in or out with **CTRL+numpad plus/minus**, or input zoom factor into the zoom up/down control directly.
+
+When the offset control is in focus, you can use **Page Up/Down** to page faster through memory.
+
+### Special functions
+
+If you see any sprites you like and wish to clone (steal) for your own games, use the **Edit | Copy As Binary to clipboard** function. This will generate binary you can paste into your own assembly files. Here is a Manic Miner Miner Willy sprite extracted as binary:
+
+<img width="189" alt="image" src="https://user-images.githubusercontent.com/34286887/209685819-afeda96a-c334-464e-974b-850e985a7444.png">
+
+
+
+## Legalese
 
 Feel free to clone, fork, create a pull request. If you do adapt this though, please give me credit.
 
 BTW: Use at your own risk. It probably has MemorySteam memory leaks somewhere. I will try and iron these out.
 
-Next steps planned: 
 
-* export as binary DB statements (so you can paste into assembly code) - DONE
-* copy image to clipboard  (DONE)
+## Next steps planned: 
+
 * show bytes as hex next to image
 * overlay grid 
 
@@ -20,6 +47,4 @@ Next steps planned:
 Do not expect this code to be SOLID, this tool is a quick and dirty means to an end. 
 I may refactor when I have time.
 
-Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80".
 
-![image](https://user-images.githubusercontent.com/34286887/209675656-ed02f6f9-0ca8-48b2-bbd6-08484b790a52.png)
