@@ -40,18 +40,21 @@
             this.zoomInToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.offsetLabel = new System.Windows.Forms.Label();
             this.offsetUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
+            this.bytesPerRowLabel = new System.Windows.Forms.Label();
             this.bytesPerRowUpdown = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
+            this.rowsLabel = new System.Windows.Forms.Label();
             this.rowsUpDown = new System.Windows.Forms.NumericUpDown();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.zoomLabel = new System.Windows.Forms.Label();
+            this.zoomUpDown = new System.Windows.Forms.NumericUpDown();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.offsetUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bytesPerRowUpdown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zoomUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -63,7 +66,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(875, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -142,6 +145,7 @@
             // 
             // zoomInToolStripMenuItem
             // 
+            this.zoomInToolStripMenuItem.Enabled = false;
             this.zoomInToolStripMenuItem.Name = "zoomInToolStripMenuItem";
             this.zoomInToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Add)));
             this.zoomInToolStripMenuItem.Size = new System.Drawing.Size(314, 34);
@@ -150,6 +154,7 @@
             // 
             // zoomOutToolStripMenuItem
             // 
+            this.zoomOutToolStripMenuItem.Enabled = false;
             this.zoomOutToolStripMenuItem.Name = "zoomOutToolStripMenuItem";
             this.zoomOutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Subtract)));
             this.zoomOutToolStripMenuItem.Size = new System.Drawing.Size(314, 34);
@@ -164,19 +169,19 @@
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Location = new System.Drawing.Point(12, 95);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(776, 343);
+            this.pictureBox1.Size = new System.Drawing.Size(851, 343);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
-            // label1
+            // offsetLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 47);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 25);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "&Offset (hex)";
+            this.offsetLabel.AutoSize = true;
+            this.offsetLabel.Location = new System.Drawing.Point(15, 47);
+            this.offsetLabel.Name = "offsetLabel";
+            this.offsetLabel.Size = new System.Drawing.Size(103, 25);
+            this.offsetLabel.TabIndex = 1;
+            this.offsetLabel.Text = "&Offset (hex)";
             // 
             // offsetUpDown
             // 
@@ -192,15 +197,16 @@
             this.offsetUpDown.Size = new System.Drawing.Size(132, 31);
             this.offsetUpDown.TabIndex = 2;
             this.offsetUpDown.ValueChanged += new System.EventHandler(this.offsetUpDown_ValueChanged);
+            this.offsetUpDown.KeyDown += new System.Windows.Forms.KeyEventHandler(this.offsetUpDown_KeyDown);
             // 
-            // label2
+            // bytesPerRowLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(281, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 25);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "&Bytes per row";
+            this.bytesPerRowLabel.AutoSize = true;
+            this.bytesPerRowLabel.Location = new System.Drawing.Point(281, 47);
+            this.bytesPerRowLabel.Name = "bytesPerRowLabel";
+            this.bytesPerRowLabel.Size = new System.Drawing.Size(120, 25);
+            this.bytesPerRowLabel.TabIndex = 3;
+            this.bytesPerRowLabel.Text = "&Bytes per row";
             // 
             // bytesPerRowUpdown
             // 
@@ -221,14 +227,14 @@
             0});
             this.bytesPerRowUpdown.ValueChanged += new System.EventHandler(this.bytesPerRowUpdown_ValueChanged);
             // 
-            // label3
+            // rowsLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(532, 49);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 25);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "&Rows";
+            this.rowsLabel.AutoSize = true;
+            this.rowsLabel.Location = new System.Drawing.Point(532, 49);
+            this.rowsLabel.Name = "rowsLabel";
+            this.rowsLabel.Size = new System.Drawing.Size(54, 25);
+            this.rowsLabel.TabIndex = 5;
+            this.rowsLabel.Text = "&Rows";
             // 
             // rowsUpDown
             // 
@@ -259,29 +265,64 @@
             this.openFileDialog.DefaultExt = "*.*";
             this.openFileDialog.FileName = "*.*";
             // 
+            // zoomLabel
+            // 
+            this.zoomLabel.AutoSize = true;
+            this.zoomLabel.Location = new System.Drawing.Point(724, 53);
+            this.zoomLabel.Name = "zoomLabel";
+            this.zoomLabel.Size = new System.Drawing.Size(60, 25);
+            this.zoomLabel.TabIndex = 7;
+            this.zoomLabel.Text = "&Zoom";
+            // 
+            // zoomUpDown
+            // 
+            this.zoomUpDown.Enabled = false;
+            this.zoomUpDown.Location = new System.Drawing.Point(781, 51);
+            this.zoomUpDown.Maximum = new decimal(new int[] {
+            16,
+            0,
+            0,
+            0});
+            this.zoomUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.zoomUpDown.Name = "zoomUpDown";
+            this.zoomUpDown.Size = new System.Drawing.Size(82, 31);
+            this.zoomUpDown.TabIndex = 8;
+            this.zoomUpDown.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.zoomUpDown.ValueChanged += new System.EventHandler(this.zoomUpDown_ValueChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(875, 450);
+            this.Controls.Add(this.zoomUpDown);
+            this.Controls.Add(this.zoomLabel);
             this.Controls.Add(this.rowsUpDown);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.rowsLabel);
             this.Controls.Add(this.bytesPerRowUpdown);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.bytesPerRowLabel);
             this.Controls.Add(this.offsetUpDown);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.offsetLabel);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Binary to pixel viewer";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.offsetUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bytesPerRowUpdown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rowsUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zoomUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -297,16 +338,18 @@
         private ToolStripMenuItem zoomInToolStripMenuItem;
         private ToolStripMenuItem zoomOutToolStripMenuItem;
         private PictureBox pictureBox1;
-        private Label label1;
+        private Label offsetLabel;
         private NumericUpDown offsetUpDown;
-        private Label label2;
+        private Label bytesPerRowLabel;
         private NumericUpDown bytesPerRowUpdown;
-        private Label label3;
+        private Label rowsLabel;
         private NumericUpDown rowsUpDown;
         private OpenFileDialog openFileDialog;
         private ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem copyRenderAreaToClipboardToolStripMenuItem;
         private ToolStripMenuItem closeToolStripMenuItem;
         private ToolStripMenuItem copyAsBinaryToClipboardToolStripMenuItem;
+        private Label zoomLabel;
+        private NumericUpDown zoomUpDown;
     }
 }

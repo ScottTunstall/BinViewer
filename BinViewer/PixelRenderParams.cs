@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BinViewer
+﻿namespace BinViewer
 {
     public class PixelRenderParams
     {
         public const int DefaultPixelWidth = 8;
         public const int DefaultPixelHeight = 8;
 
-
-        public PixelRenderParams(byte[] source, int bytesPerRow, int rows, Graphics graphics)
-            : this(source, bytesPerRow, rows, graphics, 0, 0, DefaultPixelWidth, DefaultPixelHeight, Brushes.White, Brushes.Black)
-        {
-
-        }
-        
         public PixelRenderParams(byte[] source, int bytesPerRow, int rows, Graphics graphics, int startX, int startY, int pixelWidth, int pixelHeight, Brush backGroundBrush, Brush pixelBrush)
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
@@ -36,7 +23,7 @@ namespace BinViewer
             if (startY < 0) throw new ArgumentException("startY must be a positive integer", nameof(startY));
             StartY = startY;
 
-            if (pixelWidth<1) throw new ArgumentException("pixelWidth must be nonzero positive integer", nameof(pixelWidth));
+            if (pixelWidth < 1) throw new ArgumentException("pixelWidth must be nonzero positive integer", nameof(pixelWidth));
             PixelWidth = pixelWidth;
 
             if (pixelHeight < 1) throw new ArgumentException("pixelHeight must be nonzero positive integer", nameof(pixelHeight));
@@ -52,9 +39,9 @@ namespace BinViewer
         public Graphics Graphics { get; private set; }
         public int StartX { get; private set; }
         public int StartY { get; private set; }
-        public int PixelWidth { get; private set; } = DefaultPixelWidth;
-        public int PixelHeight { get; private set; } = DefaultPixelHeight;
-        public Brush BackGroundBrush { get; private set; } = Brushes.White;
-        public Brush PixelBrush { get; private set; } = Brushes.Black;
+        public int PixelWidth { get; private set; }
+        public int PixelHeight { get; private set; }
+        public Brush BackGroundBrush { get; private set; }
+        public Brush PixelBrush { get; private set; }
     }
 }

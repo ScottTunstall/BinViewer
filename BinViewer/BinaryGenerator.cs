@@ -49,10 +49,12 @@ namespace BinViewer
 
         private string GenerateBinaryForRow(byte[] data, int dataOffset, int bytesPerRow, string separator)
         {
+            const int binaryDigitsPerByte = 8;
+
             List<string> binaryStrings = new();
             for (int i = dataOffset; i < dataOffset + bytesPerRow; i++)
             {
-                var asBinary = Convert.ToString(data[i], 2).PadLeft(8, '0');
+                var asBinary = Convert.ToString(data[i], 2).PadLeft(binaryDigitsPerByte, '0');
                 binaryStrings.Add(asBinary);
             }
 

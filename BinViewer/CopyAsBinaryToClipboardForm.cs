@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace BinViewer
+﻿namespace BinViewer
 {
     public partial class CopyAsBinaryToClipboardForm : Form
     {
-        const int HexDigitsFor16BitAddress = 4;
-        const int HexDigitsFor32BitAddress = 8;
-        
+        private const int HexDigitsFor16BitAddress = 4;
+        private const int HexDigitsFor32BitAddress = 8;
+
         private readonly int _offset;
         private int _bytesPerRow;
         private readonly int _originalBytesPerRow;
@@ -26,7 +16,6 @@ namespace BinViewer
         private string _separator = string.Empty;
         private int _maxHexDigitsForAddress;
 
-
         public CopyAsBinaryToClipboardForm(int offset, int bytesPerRow, int rows, SpriteMemoryManager memoryManager)
         {
             _offset = offset;
@@ -37,37 +26,33 @@ namespace BinViewer
             _memoryManager = memoryManager;
 
             InitializeComponent();
-           
         }
 
         private void CopyAsBinaryToClipboardForm_Load(object sender, EventArgs e)
         {
             _requireOrigin = IncludeMemoryAddressCheckBox.Checked;
-            
+
             SetBytesPerRowRadios();
 
             SetRequireOriginFromCheckBox();
-            SetAddressPaddingFromRadios();
+            SetAddressDigitPaddingFromRadios();
             SetBytesPerRowFromRadios();
             SetSeparatorFromRadios();
         }
-
-
 
         private void IncludeMemoryAddressCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             SetRequireOriginFromCheckBox();
         }
 
-
         private void FormatAddressesAsSixteenBitRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetAddressPaddingFromRadios();
+            SetAddressDigitPaddingFromRadios();
         }
 
         private void FormatAddressesAsThirtyTwoBitRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetAddressPaddingFromRadios();
+            SetAddressDigitPaddingFromRadios();
         }
 
         private void OneBytePerRowRadioButton_CheckedChanged(object sender, EventArgs e)
@@ -97,18 +82,18 @@ namespace BinViewer
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
-            var binary = new BinaryGenerator();
+            var binaryGenerator = new BinaryGenerator();
             var data = _memoryManager.GetBytes(_offset, _bytesPerRow * _rows);
 
             string asBinaryString;
             if (_requireOrigin)
             {
                 int origin = (int)OriginUpDown.Value;
-                asBinaryString = binary.FromBytes(data, origin, _maxHexDigitsForAddress, _bytesPerRow, _rows, _separator);
+                asBinaryString = binaryGenerator.FromBytes(data, origin, _maxHexDigitsForAddress, _bytesPerRow, _rows, _separator);
             }
             else
             {
-                asBinaryString = binary.FromBytes(data, _bytesPerRow, _rows, _separator);
+                asBinaryString = binaryGenerator.FromBytes(data, _bytesPerRow, _rows, _separator);
             }
 
             Clipboard.SetText(asBinaryString);
@@ -116,14 +101,12 @@ namespace BinViewer
             MessageBox.Show($"Copied binary for {_rows} row(s) to clipboard.");
         }
 
-
         private void SetRequireOriginFromCheckBox()
         {
             _requireOrigin = IncludeMemoryAddressCheckBox.Checked;
             SetOriginLabel.Enabled = IncludeMemoryAddressCheckBox.Checked;
             OriginUpDown.Enabled = IncludeMemoryAddressCheckBox.Checked;
         }
-
 
         private void SetBytesPerRowRadios()
         {
@@ -133,9 +116,7 @@ namespace BinViewer
             BytesPerRowRadioButton.Text = $"{_originalBytesPerRow} bytes per row";
         }
 
-
-
-        private void SetAddressPaddingFromRadios()
+        private void SetAddressDigitPaddingFromRadios()
         {
             if (FormatAddressesAsThirtyTwoBitRadioButton.Checked)
             {
@@ -145,7 +126,6 @@ namespace BinViewer
 
             _maxHexDigitsForAddress = HexDigitsFor16BitAddress;
         }
-
 
         private void SetBytesPerRowFromRadios()
         {
@@ -176,7 +156,5 @@ namespace BinViewer
 
             _separator = ",";
         }
-
-
     }
 }
