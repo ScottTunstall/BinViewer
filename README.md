@@ -22,4 +22,4 @@ I may refactor when I have time.
 
 Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80".
 
-![image](https://user-images.githubusercontent.com/34286887/209662519-1dfffa1d-651a-4d54-8834-67accd2c1310.png)
+![image](https://user-images.githubusercontent.com/34286887/209675656-ed02f6f9-0ca8-48b2-bbd6-08484b790a52.png)
