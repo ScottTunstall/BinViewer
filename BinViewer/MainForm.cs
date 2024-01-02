@@ -118,6 +118,12 @@ namespace BinViewer
             ZoomOut();
         }
 
+        private void gridlinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            viewGridlinesToolStripMenuItem.Checked = !viewGridlinesToolStripMenuItem.Checked;
+            pictureBox1.Invalidate();
+        }
+
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             using var backGroundBrush = new SolidBrush(pictureBox1.BackColor);
@@ -130,14 +136,21 @@ namespace BinViewer
             var bytesPerRow = (int)bytesPerRowUpdown.Value;
             var rows = (int)rowsUpDown.Value;
             var zoomFactor = (int)zoomUpDown.Value;
+            var enableGrid = viewGridlinesToolStripMenuItem.Checked;
 
             if (!_memoryManager.TryGetBytes(offset, bytesPerRow * rows, out var bytes))
                 return;
 
-            var renderParams = new PixelRenderParams(bytes!, bytesPerRow, rows, e.Graphics, 0, 0, 1 << zoomFactor,
-                1 << zoomFactor, backGroundBrush, Brushes.Black);
-            var renderer = new PixelRenderer(renderParams);
-            renderer.Render();
+            if (enableGrid)
+            {
+                var gridRenderParams = new GridRenderParams(e.Graphics, 0,0, bytesPerRow * 8, rows, 1<< zoomFactor, 1<<zoomFactor, Pens.Black );
+                var gridRenderer = new GridRenderer(gridRenderParams);
+                gridRenderer.Render();
+            }
+
+            var spriteRenderParams = new SpriteRenderParams(bytes!, bytesPerRow, rows, e.Graphics, 0, 0, 1 << zoomFactor, 1 << zoomFactor, Brushes.Black);
+            var spriteRenderer = new SpriteRenderer(spriteRenderParams);
+            spriteRenderer.Render();
         }
 
         private void ResetTitle()
@@ -172,7 +185,6 @@ namespace BinViewer
             zoomOutToolStripMenuItem.Enabled = currentZoomFactor > MinZoomFactor;
             zoomInToolStripMenuItem.Enabled = currentZoomFactor < MaxZoomFactor;
             pictureBox1.Invalidate();
-
         }
 
         private void ZoomIn()
@@ -187,7 +199,7 @@ namespace BinViewer
 
             zoomFactor++;
             zoomUpDown.Value = zoomFactor;
-            
+
             if (zoomFactor == MaxZoomFactor)
             {
                 zoomInToolStripMenuItem.Enabled = false;

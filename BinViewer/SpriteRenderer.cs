@@ -2,16 +2,16 @@
 {
 
 
-    public class PixelRenderer
+    public class SpriteRenderer
     {
         private const int BitsPerByte = 8;
 
-        private readonly PixelRenderParams _renderParams;
+        private readonly SpriteRenderParams _renderParams;
         
 
-        public PixelRenderer(PixelRenderParams pixelRenderParams)
+        public SpriteRenderer(SpriteRenderParams spriteRenderParams)
         {
-            _renderParams = pixelRenderParams ?? throw new ArgumentNullException(nameof(pixelRenderParams));
+            _renderParams = spriteRenderParams ?? throw new ArgumentNullException(nameof(spriteRenderParams));
         }
 
 
@@ -39,9 +39,11 @@
             var read = source;
             for (int i=0; i< BitsPerByte; i++)
             {
-                var rect = new Rectangle(x, y, _renderParams.PixelWidth, _renderParams.PixelHeight);
-                var brush = ((read & 0x80) !=0) ? _renderParams.PixelBrush: _renderParams.BackGroundBrush;
-                _renderParams.Graphics.FillRectangle(brush, rect);
+                if ((read & 0x80) != 0)
+                {
+                    var rect = new Rectangle(x, y, _renderParams.PixelWidth, _renderParams.PixelHeight);
+                    _renderParams.Graphics.FillRectangle(_renderParams.PixelBrush, rect);
+                }
 
                 read <<= 1;
                 x += _renderParams.PixelWidth;
