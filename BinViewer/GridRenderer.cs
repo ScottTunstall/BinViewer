@@ -18,7 +18,7 @@ namespace BinViewer
         public void Render()
         {
             var graphics = _renderParams.Graphics;
-            var gridTotalWidthInPixels = _renderParams.CellWidth * _renderParams.Columns;
+            var gridTotalWidthInPixels = _renderParams.CellWidth * _renderParams.Columns * _renderParams.CellsPerColumn;
             var gridTotalHeightInPixels = _renderParams.CellHeight * _renderParams.Rows;
 
             graphics.DrawRectangle(_renderParams.CellPen, _renderParams.StartX, _renderParams.StartY, gridTotalWidthInPixels, gridTotalHeightInPixels);
@@ -31,7 +31,7 @@ namespace BinViewer
             }
 
             var x = _renderParams.StartX+_renderParams.CellWidth;
-            for (int j = 0; j < _renderParams.Columns-1; j++)
+            for (int j = 0; j < _renderParams.Columns * _renderParams.CellsPerColumn -1; j++)
             {
                 graphics.DrawLine(_renderParams.CellPen, x, _renderParams.StartY, x, _renderParams.StartY + gridTotalHeightInPixels);
                 x += _renderParams.CellWidth;

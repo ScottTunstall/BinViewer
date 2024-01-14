@@ -6,6 +6,7 @@ namespace BinViewer
         private const int DefaultZoomFactor = 3;
         private const int MinZoomFactor = 3;
         private const int MaxZoomFactor = 8;
+        private const int PixelsPerByte = 8; // 8 pixels packed to 1 byte, meaning 1bit per pixel (1bpp)
 
         private readonly SpriteMemoryManager _memoryManager = new();
         private long _maxOffset;
@@ -143,12 +144,12 @@ namespace BinViewer
 
             if (enableGrid)
             {
-                var gridRenderParams = new GridRenderParams(e.Graphics, 0,0, bytesPerRow * 8, rows, 1<< zoomFactor, 1<<zoomFactor, Pens.Black );
+                var gridRenderParams = new GridRenderParams(e.Graphics, 0,0, bytesPerRow, rows, PixelsPerByte, 1<< zoomFactor, 1<<zoomFactor, Pens.Black );
                 var gridRenderer = new GridRenderer(gridRenderParams);
                 gridRenderer.Render();
             }
 
-            var spriteRenderParams = new SpriteRenderParams(bytes!, bytesPerRow, rows, e.Graphics, 0, 0, 1 << zoomFactor, 1 << zoomFactor, Brushes.Black);
+            var spriteRenderParams = new SpriteRenderParams(bytes!, bytesPerRow, rows, e.Graphics, 0, 0, 1 << zoomFactor, 1 << zoomFactor, PixelsPerByte, Brushes.Black);
             var spriteRenderer = new SpriteRenderer(spriteRenderParams);
             spriteRenderer.Render();
         }

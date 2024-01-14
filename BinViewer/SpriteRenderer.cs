@@ -4,7 +4,7 @@
 
     public class SpriteRenderer
     {
-        private const int BitsPerByte = 8;
+        private const int PixelsPerByte = 8;
 
         private readonly SpriteRenderParams _renderParams;
         
@@ -26,7 +26,7 @@
                 for (int j = 0; j < _renderParams.BytesPerRow; j++)
                 {
                     PixelsFromByte(_renderParams.Source[sourceIndex++], x, y);
-                    x += _renderParams.PixelWidth * BitsPerByte;
+                    x += _renderParams.PixelWidth * PixelsPerByte;
                 }
 
                 x = _renderParams.StartX;
@@ -37,7 +37,7 @@
         private void PixelsFromByte(byte source, int x, int y)
         {
             var read = source;
-            for (int i=0; i< BitsPerByte; i++)
+            for (int i=0; i< PixelsPerByte; i++)
             {
                 if ((read & 0x80) != 0)
                 {
