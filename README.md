@@ -10,11 +10,12 @@ Select bytes per row (1 byte = 8 pixels width) and how many rows tall the pixel 
 
 This is trial and error - but persevere and reap rewards!
 
-Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80".
+Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80". Note how Gridlines are turned on. They are not enabled by default.
 
 (Continued after image)
 
-![image](https://user-images.githubusercontent.com/34286887/209683347-021036d3-c69c-4d17-917f-4dccfc2ccd27.png)
+<img width="455" alt="image" src="https://github.com/ScottTunstall/BinViewer/assets/34286887/29ab30ab-0e68-4892-ba54-9e3f7bdbc999">
+
 
 
 ### Keyboard shortcuts
