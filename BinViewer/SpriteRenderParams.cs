@@ -15,7 +15,7 @@
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
 
-            if (bytesPerRow < 1) throw new ArgumentOutOfRangeException(nameof(bytesPerRow), $"nameof(bytesperrow) must be nonzero positive integer");
+            if (bytesPerRow < 1) throw new ArgumentOutOfRangeException(nameof(bytesPerRow), $"{nameof(bytesPerRow)} must be nonzero positive integer");
             BytesPerRow = bytesPerRow;
 
             if (rows < 1) throw new ArgumentOutOfRangeException(nameof(rows), $"{nameof(rows)} must be nonzero positive integer");

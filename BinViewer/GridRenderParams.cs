@@ -13,10 +13,7 @@ namespace BinViewer
 
             Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
 
-            if (startX < 0) throw new ArgumentOutOfRangeException(nameof(startX));
             StartX = startX;
-
-            if (startY < 0) throw new ArgumentOutOfRangeException(nameof(startY));
             StartY = startY;
 
             if (columns <= 0) throw new ArgumentOutOfRangeException(nameof(columns));

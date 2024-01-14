@@ -6,11 +6,22 @@
 
         public bool HasData => _stream is { Length: > 0 };
 
+
         public void Dispose()
         {
-            FreeMemory();
+            Dispose(true);
+            GC.SuppressFinalize(this); // Suppress finalization if Dispose was called
         }
 
+        // Protected virtual method to dispose of managed and unmanaged resources
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                FreeMemory();
+            }
+        }
+        
 
         public long FromFile(string fileName)
         {
@@ -30,7 +41,7 @@
             FreeMemory();
         }
 
-        public bool TryGetBytes(int offset, int numberOfBytes, out byte[]? bytes)
+        public bool TryGetBytes(long offset, int numberOfBytes, out byte[]? bytes)
         {
             if (_stream == null)
             {
@@ -52,7 +63,7 @@
             return true;
         }
 
-        public byte[] GetBytes(int offset, int numberOfBytes)
+        public byte[] GetBytes(long offset, int numberOfBytes)
         {
             if (_stream == null)
                 throw new InvalidOperationException("Nothing loaded.");

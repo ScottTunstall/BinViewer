@@ -105,6 +105,7 @@
             // copyAsBinaryToClipboardToolStripMenuItem
             // 
             copyAsBinaryToClipboardToolStripMenuItem.Name = "copyAsBinaryToClipboardToolStripMenuItem";
+            copyAsBinaryToClipboardToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.B;
             copyAsBinaryToClipboardToolStripMenuItem.Size = new Size(414, 34);
             copyAsBinaryToClipboardToolStripMenuItem.Text = "Copy as binary to clipboard..";
             copyAsBinaryToClipboardToolStripMenuItem.Click += copyAsBinaryToClipboardToolStripMenuItem_Click;

@@ -6,23 +6,15 @@
         private const int HexDigitsFor32BitAddress = 8;
 
         private readonly int _offset;
-        private int _bytesPerRow;
         private readonly int _originalBytesPerRow;
-        private int _rows;
-        private readonly int _originalRows;
+        private readonly int _rows;
         private readonly SpriteMemoryManager _memoryManager;
-
-        private bool _requireOrigin;
-        private string _separator = string.Empty;
-        private int _maxHexDigitsForAddress;
 
         public CopyAsBinaryToClipboardForm(int offset, int bytesPerRow, int rows, SpriteMemoryManager memoryManager)
         {
             _offset = offset;
-            _bytesPerRow = bytesPerRow;
             _originalBytesPerRow = bytesPerRow;
             _rows = rows;
-            _originalRows = rows;
             _memoryManager = memoryManager;
 
             InitializeComponent();
@@ -30,80 +22,36 @@
 
         private void CopyAsBinaryToClipboardForm_Load(object sender, EventArgs e)
         {
-            _requireOrigin = IncludeMemoryAddressCheckBox.Checked;
-
             SetBytesPerRowRadios();
-
-            SetRequireOriginFromCheckBox();
-            SetAddressDigitPaddingFromRadios();
-            SetBytesPerRowFromRadios();
-            SetSeparatorFromRadios();
+            SetOriginFormattingRadiosFromRequireOriginCheckbox();
+            SetOriginUpdownMaxValueFromRadios();
         }
 
         private void IncludeMemoryAddressCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            SetRequireOriginFromCheckBox();
+            SetOriginFormattingRadiosFromRequireOriginCheckbox();
         }
 
         private void FormatAddressesAsSixteenBitRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetAddressDigitPaddingFromRadios();
+            SetOriginUpdownMaxValueFromRadios();
         }
 
         private void FormatAddressesAsThirtyTwoBitRadioButton_CheckedChanged(object sender, EventArgs e)
         {
-            SetAddressDigitPaddingFromRadios();
-        }
-
-        private void OneBytePerRowRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            SetBytesPerRowFromRadios();
-        }
-
-        private void BytesPerRowRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            SetBytesPerRowFromRadios();
-        }
-
-        private void SeparateBySpaceRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            SetSeparatorFromRadios();
-        }
-
-        private void SeparateByCommaRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            SetSeparatorFromRadios();
-        }
-
-        private void SeparateByNothingRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            SetSeparatorFromRadios();
+            SetOriginUpdownMaxValueFromRadios();
         }
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
-            var binaryGenerator = new BinaryGenerator();
-            var data = _memoryManager.GetBytes(_offset, _bytesPerRow * _rows);
-
-            string asBinaryString;
-            if (_requireOrigin)
-            {
-                int origin = (int)OriginUpDown.Value;
-                asBinaryString = binaryGenerator.FromBytes(data, origin, _maxHexDigitsForAddress, _bytesPerRow, _rows, _separator);
-            }
-            else
-            {
-                asBinaryString = binaryGenerator.FromBytes(data, _bytesPerRow, _rows, _separator);
-            }
-
-            Clipboard.SetText(asBinaryString);
-
-            MessageBox.Show($"Copied binary for {_rows} row(s) to clipboard.");
+            CopyBinaryToClipboard();
         }
 
-        private void SetRequireOriginFromCheckBox()
+        private void SetOriginFormattingRadiosFromRequireOriginCheckbox()
         {
-            _requireOrigin = IncludeMemoryAddressCheckBox.Checked;
+            FormatAddressesAsLabel.Enabled = IncludeMemoryAddressCheckBox.Checked;
+            FormatAddressesAsSixteenBitRadioButton.Enabled = IncludeMemoryAddressCheckBox.Checked;
+            FormatAddressesAsThirtyTwoBitRadioButton.Enabled = IncludeMemoryAddressCheckBox.Checked;
             SetOriginLabel.Enabled = IncludeMemoryAddressCheckBox.Checked;
             OriginUpDown.Enabled = IncludeMemoryAddressCheckBox.Checked;
         }
@@ -116,45 +64,70 @@
             BytesPerRowRadioButton.Text = $"{_originalBytesPerRow} bytes per row";
         }
 
-        private void SetAddressDigitPaddingFromRadios()
+        private void SetOriginUpdownMaxValueFromRadios()
         {
-            if (FormatAddressesAsThirtyTwoBitRadioButton.Checked)
+            var oldValue = (uint)OriginUpDown.Maximum;
+            if (FormatAddressesAsSixteenBitRadioButton.Checked)
             {
-                _maxHexDigitsForAddress = HexDigitsFor32BitAddress;
-                return;
+                OriginUpDown.Maximum = ushort.MaxValue;
+                OriginUpDown.Value = (ushort) (oldValue & 0xffff);
             }
-
-            _maxHexDigitsForAddress = HexDigitsFor16BitAddress;
+            else
+            {
+                OriginUpDown.Maximum = int.MaxValue;
+            }
         }
 
-        private void SetBytesPerRowFromRadios()
+
+
+        private void CopyBinaryToClipboard()
         {
-            if (OneBytePerRowRadioButton.Checked)
+            (int bytesPerRow, int rows) = GetBytesPerRowAndRows();
+
+            var binaryGenerator = new BinaryGenerator();
+            var data = _memoryManager.GetBytes(_offset, bytesPerRow * rows);
+
+            string asBinaryString;
+            if (IncludeMemoryAddressCheckBox.Checked)
             {
-                _bytesPerRow = 1;
-                _rows = _originalRows * _originalBytesPerRow;
-                return;
+                int origin = (int)OriginUpDown.Value;
+                asBinaryString = binaryGenerator.FromBytes(data, origin, GetAddressDigitPadding(), bytesPerRow, rows, GetSeparator());
+            }
+            else
+            {
+                asBinaryString = binaryGenerator.FromBytes(data, bytesPerRow, rows, GetSeparator());
             }
 
-            _bytesPerRow = _originalBytesPerRow;
-            _rows = _originalRows;
+            Clipboard.SetText(asBinaryString);
+
+            MessageBox.Show($"Copied binary for {_rows} row(s) to clipboard.");
         }
 
-        private void SetSeparatorFromRadios()
+        private (int bytesPerRow, int rows) GetBytesPerRowAndRows()
+        {
+            return OneBytePerRowRadioButton.Checked ? (1, _rows * _originalBytesPerRow) : (_originalBytesPerRow, _rows);
+        }
+
+        private int GetAddressDigitPadding()
+        {
+            return FormatAddressesAsSixteenBitRadioButton.Checked ? HexDigitsFor16BitAddress : HexDigitsFor32BitAddress;
+        }
+
+        private string GetSeparator()
         {
             if (SeparateByNothingRadioButton.Checked)
             {
-                _separator = string.Empty;
-                return;
+                return string.Empty;
             }
 
             if (seperateBySpaceRadioButton.Checked)
             {
-                _separator = " ";
-                return;
+                return " ";
             }
 
-            _separator = ",";
+            return ",";
         }
+
+
     }
 }

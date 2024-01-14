@@ -144,7 +144,7 @@ namespace BinViewer
 
             if (enableGrid)
             {
-                var gridRenderParams = new GridRenderParams(e.Graphics, 0,0, bytesPerRow, rows, PixelsPerByte, 1<< zoomFactor, 1<<zoomFactor, Pens.Black );
+                var gridRenderParams = new GridRenderParams(e.Graphics, 0,0, bytesPerRow, rows, PixelsPerByte,1<<zoomFactor, 1<<zoomFactor, Pens.Black );
                 var gridRenderer = new GridRenderer(gridRenderParams);
                 gridRenderer.Render();
             }

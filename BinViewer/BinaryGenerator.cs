@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace BinViewer
 {
@@ -21,13 +17,11 @@ namespace BinViewer
                 sb.Append(":\t");
                 var binaryAsString = GenerateBinaryForRow(data, dataOffset, bytesPerRow, separator);
                 sb.AppendLine(binaryAsString);
-                currentAddress += bytesPerRow;
+                currentAddress += (int)bytesPerRow;
                 dataOffset += bytesPerRow;
             }
             return sb.ToString();
-
         }
-
 
         public string FromBytes(byte[] data, int bytesPerRow, int numRows, string separator)
         {
@@ -60,7 +54,5 @@ namespace BinViewer
 
             return string.Join(separator, binaryStrings);
         }
-
-        
     }
 }
