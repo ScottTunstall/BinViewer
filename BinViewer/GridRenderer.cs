@@ -21,19 +21,21 @@ namespace BinViewer
             var gridTotalWidthInPixels = _renderParams.CellWidth * _renderParams.Columns * _renderParams.CellsPerColumn;
             var gridTotalHeightInPixels = _renderParams.CellHeight * _renderParams.Rows;
 
-            graphics.DrawRectangle(_renderParams.CellPen, _renderParams.StartX, _renderParams.StartY, gridTotalWidthInPixels, gridTotalHeightInPixels);
+            using var gridCellPen = new Pen(_renderParams.CellColour);
+            
+            graphics.DrawRectangle(gridCellPen, _renderParams.StartX, _renderParams.StartY, gridTotalWidthInPixels, gridTotalHeightInPixels);
 
             var y = _renderParams.StartY+_renderParams.CellHeight;
             for (int i = 0; i < _renderParams.Rows-1; i++)
             {
-                graphics.DrawLine(_renderParams.CellPen, _renderParams.StartX, y, _renderParams.StartX+gridTotalWidthInPixels, y);
+                graphics.DrawLine(gridCellPen, _renderParams.StartX, y, _renderParams.StartX+gridTotalWidthInPixels, y);
                 y += _renderParams.CellHeight;
             }
 
             var x = _renderParams.StartX+_renderParams.CellWidth;
             for (int j = 0; j < _renderParams.Columns * _renderParams.CellsPerColumn -1; j++)
             {
-                graphics.DrawLine(_renderParams.CellPen, x, _renderParams.StartY, x, _renderParams.StartY + gridTotalHeightInPixels);
+                graphics.DrawLine(gridCellPen, x, _renderParams.StartY, x, _renderParams.StartY + gridTotalHeightInPixels);
                 x += _renderParams.CellWidth;
             }
         }
