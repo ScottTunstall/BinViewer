@@ -42,8 +42,9 @@ BTW: Use at your own risk. It probably has MemorySteam memory leaks somewhere. I
 ## Next steps planned: 
 
 * show bytes as hex next to image
-* overlay grid 
-
+* overlay grid  - DONE.   Select View menu then "Gridlines"
+* Colour selectors for grid and pixels (not top of my list tbh)
+* Context menus for the bytes per column control and rows updown control. The former to have multiples of 2 and the latter to have multiples of 8 as dropdowns.
 
 Do not expect this code to be SOLID, this tool is a quick and dirty means to an end. 
 I may refactor when I have time.
