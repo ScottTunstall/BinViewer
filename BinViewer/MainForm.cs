@@ -1,3 +1,10 @@
+//
+// Software developed by Scott Tunstall B.Sc
+// Contact: scott.tunstall@ntlworld.com
+//
+
+using Microsoft.Extensions.Options;
+
 namespace BinViewer
 {
     public partial class MainForm : Form
@@ -8,13 +15,18 @@ namespace BinViewer
         private const int MaxZoomFactor = 8;
         private const int PixelsPerByte = 8; // 8 pixels packed to 1 byte, meaning 1bit per pixel (1bpp)
 
-        private readonly SpriteMemoryManager _memoryManager = new();
+        private readonly SpriteMemoryManager _memoryManager;
+        private readonly MostRecentlyUsedFilesManager _mruFilesManager;
         private long _maxOffset;
 
-        public MainForm()
+        public MainForm(IOptions<AppSettings> settings)
         {
+            _memoryManager = new();
+            _mruFilesManager = new(settings.Value.SettingsSubKey, settings.Value.MaxRecentlyUsedFiles);
+
             InitializeComponent();
             ResetTitle();
+            LoadMostRecentlyUsedFiles();
         }
 
         private void offsetUpDown_KeyDown(object sender, KeyEventArgs e)
@@ -64,44 +76,25 @@ namespace BinViewer
             if (result != DialogResult.OK)
                 return;
 
-            var fileSize = _memoryManager.FromFile(openFileDialog.FileName);
-
-            SetFileNameInTitle(openFileDialog.FileName);
-            SetMaxOffset(fileSize - 1);
-            ResetZoom();
-            EnableEditing();
-            pictureBox1.Invalidate();
+            LoadFile(openFileDialog.FileName);
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _memoryManager.Close();
-
-            ResetTitle();
-            ResetMaxOffset();
-            ResetZoom();
-            DisableEditing();
-            pictureBox1.Invalidate();
+            CloseFile();
         }
 
         private void copyAsBinaryToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var offset = (int)offsetUpDown.Value;
-            var bytesPerRow = (int)bytesPerRowUpdown.Value;
-            var rows = (int)rowsUpDown.Value;
-
-            var optionsForm = new CopyAsBinaryToClipboardForm(offset, bytesPerRow, rows, _memoryManager);
-            optionsForm.ShowDialog(this);
+            ShowCopyAsBinaryDialog();
         }
 
         private void copyRenderAreaToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using Image img = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            using var g = Graphics.FromImage(img);
+            var clipboardCopier = new ControlRenderAreaToClipboardCopier();
+            clipboardCopier.CopyFrom(this, pictureBox1.Location, pictureBox1.Width, pictureBox1.Height);
 
-            g.CopyFromScreen(PointToScreen(pictureBox1.Location), new Point(0, 0), new Size(pictureBox1.Width, pictureBox1.Height));
-
-            Clipboard.SetImage(img);
+            MessageBox.Show("Render area copied to clipboard.");
         }
 
         private void resetZoomToolStripMenuItem_Click(object sender, EventArgs e)
@@ -144,12 +137,12 @@ namespace BinViewer
 
             if (enableGrid)
             {
-                var gridRenderParams = new GridRenderParams(e.Graphics, 0,0, bytesPerRow, rows, PixelsPerByte,1<<zoomFactor, 1<<zoomFactor, Pens.Black );
+                var gridRenderParams = new GridRenderParams(e.Graphics, 0, 0, bytesPerRow, rows, PixelsPerByte, 1 << zoomFactor, 1 << zoomFactor, pictureBox1.ForeColor);
                 var gridRenderer = new GridRenderer(gridRenderParams);
                 gridRenderer.Render();
             }
 
-            var spriteRenderParams = new SpriteRenderParams(bytes!, bytesPerRow, rows, e.Graphics, 0, 0, 1 << zoomFactor, 1 << zoomFactor, PixelsPerByte, Brushes.Black);
+            var spriteRenderParams = new SpriteRenderParams(bytes!, bytesPerRow, rows, e.Graphics, 0, 0, 1 << zoomFactor, 1 << zoomFactor, PixelsPerByte, pictureBox1.ForeColor);
             var spriteRenderer = new SpriteRenderer(spriteRenderParams);
             spriteRenderer.Render();
         }
@@ -162,6 +155,51 @@ namespace BinViewer
         private void SetFileNameInTitle(string fileName)
         {
             this.Text = $"{fileName} - {Title}";
+        }
+
+        private void LoadFile(string fileName)
+        {
+            var fileSize = _memoryManager.Load(fileName);
+            SetMaxOffset(fileSize - 1);
+            SetFileNameInTitle(fileName);
+            AddToMostRecentlyUsedFiles(fileName);
+            ResetZoom();
+            EnableEditing();
+            pictureBox1.Invalidate();
+        }
+
+        private void CloseFile()
+        {
+            _memoryManager.Close();
+
+            ResetTitle();
+            ResetMaxOffset();
+            ResetZoom();
+            DisableEditing();
+            pictureBox1.Invalidate();
+        }
+
+
+
+        private void AddToMostRecentlyUsedFiles(string fileName)
+        {
+            _mruFilesManager.Add(fileName);
+            LoadMostRecentlyUsedFiles();
+        }
+
+        private void LoadMostRecentlyUsedFiles()
+        {
+            var dropDownItems = recentFilesToolStripMenuItem.DropDownItems;
+            dropDownItems.Clear();
+
+            var mostRecentlyUsedFileNames = _mruFilesManager.Get().ToList();
+            for (int i=0; i<mostRecentlyUsedFileNames.Count; i++)
+            {
+                var toolStripItem = new ToolStripMenuItem($"&{i+1}. {mostRecentlyUsedFileNames[i]}");
+                dropDownItems.Add(toolStripItem);
+            }
+
+            recentFilesToolStripMenuItem.Enabled = recentFilesToolStripMenuItem.Visible = mostRecentlyUsedFileNames.Any();
         }
 
         private void SetMaxOffset(long maxOffset)
@@ -182,10 +220,21 @@ namespace BinViewer
             zoomUpDown.Minimum = MinZoomFactor;
             zoomUpDown.Maximum = MaxZoomFactor;
 
+            resetZoomToolStripMenuItem.Enabled = true;
             var currentZoomFactor = (int)zoomUpDown.Value;
             zoomOutToolStripMenuItem.Enabled = currentZoomFactor > MinZoomFactor;
             zoomInToolStripMenuItem.Enabled = currentZoomFactor < MaxZoomFactor;
             pictureBox1.Invalidate();
+        }
+
+        private void ShowCopyAsBinaryDialog()
+        {
+            var offset = (int)offsetUpDown.Value;
+            var bytesPerRow = (int)bytesPerRowUpdown.Value;
+            var rows = (int)rowsUpDown.Value;
+
+            var optionsForm = new CopyAsBinaryToClipboardForm(offset, bytesPerRow, rows, _memoryManager);
+            optionsForm.ShowDialog(this);
         }
 
         private void ZoomIn()
@@ -236,9 +285,10 @@ namespace BinViewer
 
         private void EnableEditing()
         {
+            closeToolStripMenuItem.Enabled = true;
+
             editToolStripMenuItem.Enabled = true;
             viewToolStripMenuItem.Enabled = true;
-            closeToolStripMenuItem.Enabled = true;
 
             offsetUpDown.Enabled = true;
             bytesPerRowUpdown.Enabled = true;
@@ -248,9 +298,9 @@ namespace BinViewer
 
         private void DisableEditing()
         {
+            closeToolStripMenuItem.Enabled = false;
             editToolStripMenuItem.Enabled = false;
             viewToolStripMenuItem.Enabled = false;
-            closeToolStripMenuItem.Enabled = false;
 
             offsetUpDown.Enabled = false;
             bytesPerRowUpdown.Enabled = false;

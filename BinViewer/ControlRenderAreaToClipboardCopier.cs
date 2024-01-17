@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BinViewer
 {
-    public class ControlAreaToClipboard
+    public class ControlRenderAreaToClipboardCopier
     {
         public void CopyFrom(Control source, Point location, int width, int height)
         {

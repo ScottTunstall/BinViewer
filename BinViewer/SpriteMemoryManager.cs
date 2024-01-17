@@ -23,7 +23,7 @@
         }
         
 
-        public long FromFile(string fileName)
+        public long Load(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(fileName));

@@ -32,6 +32,9 @@
             fileToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
             closeToolStripMenuItem = new ToolStripMenuItem();
+            toolStripMenuItem2 = new ToolStripSeparator();
+            recentFilesToolStripMenuItem = new ToolStripMenuItem();
+            blahToolStripMenuItem = new ToolStripMenuItem();
             editToolStripMenuItem = new ToolStripMenuItem();
             copyAsBinaryToClipboardToolStripMenuItem = new ToolStripMenuItem();
             copyRenderAreaToClipboardToolStripMenuItem = new ToolStripMenuItem();
@@ -65,33 +68,55 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(890, 33);
+            menuStrip1.Padding = new Padding(4, 1, 0, 1);
+            menuStrip1.Size = new Size(623, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, closeToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, closeToolStripMenuItem, toolStripMenuItem2, recentFilesToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.O;
-            fileToolStripMenuItem.Size = new Size(54, 29);
+            fileToolStripMenuItem.Size = new Size(37, 22);
             fileToolStripMenuItem.Text = "&File";
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.O;
-            openToolStripMenuItem.Size = new Size(283, 34);
-            openToolStripMenuItem.Text = "Open...";
+            openToolStripMenuItem.Size = new Size(187, 22);
+            openToolStripMenuItem.Text = "&Open...";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // closeToolStripMenuItem
             // 
             closeToolStripMenuItem.Enabled = false;
             closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            closeToolStripMenuItem.Size = new Size(283, 34);
-            closeToolStripMenuItem.Text = "Close";
+            closeToolStripMenuItem.Size = new Size(187, 22);
+            closeToolStripMenuItem.Text = "&Close";
             closeToolStripMenuItem.Click += closeToolStripMenuItem_Click;
+            // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(184, 6);
+            // 
+            // recentFilesToolStripMenuItem
+            // 
+            recentFilesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { blahToolStripMenuItem });
+            recentFilesToolStripMenuItem.Enabled = false;
+            recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
+            recentFilesToolStripMenuItem.Size = new Size(187, 22);
+            recentFilesToolStripMenuItem.Text = "Recent &Files";
+            recentFilesToolStripMenuItem.Visible = false;
+            // 
+            // blahToolStripMenuItem
+            // 
+            blahToolStripMenuItem.Name = "blahToolStripMenuItem";
+            blahToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.D1;
+            blahToolStripMenuItem.Size = new Size(180, 22);
+            blahToolStripMenuItem.Text = "Blah";
             // 
             // editToolStripMenuItem
             // 
@@ -99,23 +124,24 @@
             editToolStripMenuItem.Enabled = false;
             editToolStripMenuItem.Name = "editToolStripMenuItem";
             editToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            editToolStripMenuItem.Size = new Size(58, 29);
+            editToolStripMenuItem.Size = new Size(39, 22);
             editToolStripMenuItem.Text = "&Edit";
             // 
             // copyAsBinaryToClipboardToolStripMenuItem
             // 
             copyAsBinaryToClipboardToolStripMenuItem.Name = "copyAsBinaryToClipboardToolStripMenuItem";
             copyAsBinaryToClipboardToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.B;
-            copyAsBinaryToClipboardToolStripMenuItem.Size = new Size(414, 34);
-            copyAsBinaryToClipboardToolStripMenuItem.Text = "Copy as binary to clipboard..";
+            copyAsBinaryToClipboardToolStripMenuItem.Size = new Size(276, 22);
+            copyAsBinaryToClipboardToolStripMenuItem.Text = "Copy as &Binary to clipboard..";
             copyAsBinaryToClipboardToolStripMenuItem.Click += copyAsBinaryToClipboardToolStripMenuItem_Click;
             // 
             // copyRenderAreaToClipboardToolStripMenuItem
             // 
             copyRenderAreaToClipboardToolStripMenuItem.Name = "copyRenderAreaToClipboardToolStripMenuItem";
+            copyRenderAreaToClipboardToolStripMenuItem.ShortcutKeyDisplayString = "";
             copyRenderAreaToClipboardToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.C;
-            copyRenderAreaToClipboardToolStripMenuItem.Size = new Size(414, 34);
-            copyRenderAreaToClipboardToolStripMenuItem.Text = "Copy render area to clipboard";
+            copyRenderAreaToClipboardToolStripMenuItem.Size = new Size(276, 22);
+            copyRenderAreaToClipboardToolStripMenuItem.Text = "Copy &Render area to clipboard";
             copyRenderAreaToClipboardToolStripMenuItem.Click += copyRenderAreaToClipboardToolStripMenuItem_Click;
             // 
             // viewToolStripMenuItem
@@ -123,15 +149,15 @@
             viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { resetZoomToolStripMenuItem, zoomInToolStripMenuItem, zoomOutToolStripMenuItem, toolStripMenuItem1, viewGridlinesToolStripMenuItem });
             viewToolStripMenuItem.Enabled = false;
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(65, 29);
+            viewToolStripMenuItem.Size = new Size(44, 22);
             viewToolStripMenuItem.Text = "&View";
             // 
             // resetZoomToolStripMenuItem
             // 
             resetZoomToolStripMenuItem.Name = "resetZoomToolStripMenuItem";
             resetZoomToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Delete;
-            resetZoomToolStripMenuItem.Size = new Size(314, 34);
-            resetZoomToolStripMenuItem.Text = "Reset zoom";
+            resetZoomToolStripMenuItem.Size = new Size(207, 22);
+            resetZoomToolStripMenuItem.Text = "&Reset zoom";
             resetZoomToolStripMenuItem.Click += resetZoomToolStripMenuItem_Click;
             // 
             // zoomInToolStripMenuItem
@@ -139,8 +165,8 @@
             zoomInToolStripMenuItem.Enabled = false;
             zoomInToolStripMenuItem.Name = "zoomInToolStripMenuItem";
             zoomInToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Add;
-            zoomInToolStripMenuItem.Size = new Size(314, 34);
-            zoomInToolStripMenuItem.Text = "Zoom In";
+            zoomInToolStripMenuItem.Size = new Size(207, 22);
+            zoomInToolStripMenuItem.Text = "Zoom &In";
             zoomInToolStripMenuItem.Click += zoomInToolStripMenuItem_Click;
             // 
             // zoomOutToolStripMenuItem
@@ -148,30 +174,31 @@
             zoomOutToolStripMenuItem.Enabled = false;
             zoomOutToolStripMenuItem.Name = "zoomOutToolStripMenuItem";
             zoomOutToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Subtract;
-            zoomOutToolStripMenuItem.Size = new Size(314, 34);
-            zoomOutToolStripMenuItem.Text = "Zoom Out";
+            zoomOutToolStripMenuItem.Size = new Size(207, 22);
+            zoomOutToolStripMenuItem.Text = "Zoom &Out";
             zoomOutToolStripMenuItem.Click += zoomOutToolStripMenuItem_Click;
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(311, 6);
+            toolStripMenuItem1.Size = new Size(204, 6);
             // 
             // viewGridlinesToolStripMenuItem
             // 
             viewGridlinesToolStripMenuItem.Name = "viewGridlinesToolStripMenuItem";
             viewGridlinesToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.G;
-            viewGridlinesToolStripMenuItem.Size = new Size(314, 34);
-            viewGridlinesToolStripMenuItem.Text = "Gridlines";
+            viewGridlinesToolStripMenuItem.Size = new Size(207, 22);
+            viewGridlinesToolStripMenuItem.Text = "&Gridlines";
             viewGridlinesToolStripMenuItem.Click += gridlinesToolStripMenuItem_Click;
             // 
             // pictureBox1
             // 
             pictureBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pictureBox1.BorderStyle = BorderStyle.FixedSingle;
-            pictureBox1.Location = new Point(12, 95);
+            pictureBox1.Location = new Point(8, 57);
+            pictureBox1.Margin = new Padding(2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(861, 343);
+            pictureBox1.Size = new Size(603, 207);
             pictureBox1.TabIndex = 1;
             pictureBox1.TabStop = false;
             pictureBox1.Paint += pictureBox1_Paint;
@@ -179,9 +206,10 @@
             // offsetLabel
             // 
             offsetLabel.AutoSize = true;
-            offsetLabel.Location = new Point(15, 47);
+            offsetLabel.Location = new Point(10, 28);
+            offsetLabel.Margin = new Padding(2, 0, 2, 0);
             offsetLabel.Name = "offsetLabel";
-            offsetLabel.Size = new Size(103, 25);
+            offsetLabel.Size = new Size(69, 15);
             offsetLabel.TabIndex = 1;
             offsetLabel.Text = "&Offset (hex)";
             // 
@@ -189,10 +217,11 @@
             // 
             offsetUpDown.Enabled = false;
             offsetUpDown.Hexadecimal = true;
-            offsetUpDown.Location = new Point(124, 47);
+            offsetUpDown.Location = new Point(87, 28);
+            offsetUpDown.Margin = new Padding(2);
             offsetUpDown.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
             offsetUpDown.Name = "offsetUpDown";
-            offsetUpDown.Size = new Size(132, 31);
+            offsetUpDown.Size = new Size(92, 23);
             offsetUpDown.TabIndex = 2;
             offsetUpDown.ValueChanged += offsetUpDown_ValueChanged;
             offsetUpDown.KeyDown += offsetUpDown_KeyDown;
@@ -200,19 +229,21 @@
             // bytesPerRowLabel
             // 
             bytesPerRowLabel.AutoSize = true;
-            bytesPerRowLabel.Location = new Point(281, 47);
+            bytesPerRowLabel.Location = new Point(197, 28);
+            bytesPerRowLabel.Margin = new Padding(2, 0, 2, 0);
             bytesPerRowLabel.Name = "bytesPerRowLabel";
-            bytesPerRowLabel.Size = new Size(120, 25);
+            bytesPerRowLabel.Size = new Size(78, 15);
             bytesPerRowLabel.TabIndex = 3;
             bytesPerRowLabel.Text = "&Bytes per row";
             // 
             // bytesPerRowUpdown
             // 
             bytesPerRowUpdown.Enabled = false;
-            bytesPerRowUpdown.Location = new Point(407, 47);
+            bytesPerRowUpdown.Location = new Point(285, 28);
+            bytesPerRowUpdown.Margin = new Padding(2);
             bytesPerRowUpdown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             bytesPerRowUpdown.Name = "bytesPerRowUpdown";
-            bytesPerRowUpdown.Size = new Size(90, 31);
+            bytesPerRowUpdown.Size = new Size(63, 23);
             bytesPerRowUpdown.TabIndex = 4;
             bytesPerRowUpdown.Value = new decimal(new int[] { 1, 0, 0, 0 });
             bytesPerRowUpdown.ValueChanged += bytesPerRowUpdown_ValueChanged;
@@ -220,20 +251,22 @@
             // rowsLabel
             // 
             rowsLabel.AutoSize = true;
-            rowsLabel.Location = new Point(532, 49);
+            rowsLabel.Location = new Point(372, 29);
+            rowsLabel.Margin = new Padding(2, 0, 2, 0);
             rowsLabel.Name = "rowsLabel";
-            rowsLabel.Size = new Size(54, 25);
+            rowsLabel.Size = new Size(35, 15);
             rowsLabel.TabIndex = 5;
             rowsLabel.Text = "&Rows";
             // 
             // rowsUpDown
             // 
             rowsUpDown.Enabled = false;
-            rowsUpDown.Location = new Point(592, 49);
+            rowsUpDown.Location = new Point(414, 29);
+            rowsUpDown.Margin = new Padding(2);
             rowsUpDown.Maximum = new decimal(new int[] { 256, 0, 0, 0 });
             rowsUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             rowsUpDown.Name = "rowsUpDown";
-            rowsUpDown.Size = new Size(82, 31);
+            rowsUpDown.Size = new Size(57, 23);
             rowsUpDown.TabIndex = 6;
             rowsUpDown.Value = new decimal(new int[] { 8, 0, 0, 0 });
             rowsUpDown.ValueChanged += rowsUpDown_ValueChanged;
@@ -246,29 +279,31 @@
             // zoomLabel
             // 
             zoomLabel.AutoSize = true;
-            zoomLabel.Location = new Point(724, 53);
+            zoomLabel.Location = new Point(507, 32);
+            zoomLabel.Margin = new Padding(2, 0, 2, 0);
             zoomLabel.Name = "zoomLabel";
-            zoomLabel.Size = new Size(60, 25);
+            zoomLabel.Size = new Size(39, 15);
             zoomLabel.TabIndex = 7;
             zoomLabel.Text = "&Zoom";
             // 
             // zoomUpDown
             // 
             zoomUpDown.Enabled = false;
-            zoomUpDown.Location = new Point(790, 51);
+            zoomUpDown.Location = new Point(553, 31);
+            zoomUpDown.Margin = new Padding(2);
             zoomUpDown.Maximum = new decimal(new int[] { 16, 0, 0, 0 });
             zoomUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             zoomUpDown.Name = "zoomUpDown";
-            zoomUpDown.Size = new Size(82, 31);
+            zoomUpDown.Size = new Size(57, 23);
             zoomUpDown.TabIndex = 8;
             zoomUpDown.Value = new decimal(new int[] { 3, 0, 0, 0 });
             zoomUpDown.ValueChanged += zoomUpDown_ValueChanged;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(890, 450);
+            ClientSize = new Size(623, 270);
             Controls.Add(zoomUpDown);
             Controls.Add(zoomLabel);
             Controls.Add(rowsUpDown);
@@ -280,6 +315,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
+            Margin = new Padding(2);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             menuStrip1.ResumeLayout(false);
@@ -318,5 +354,8 @@
         private NumericUpDown zoomUpDown;
         private ToolStripMenuItem viewGridlinesToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
+        private ToolStripSeparator toolStripMenuItem2;
+        private ToolStripMenuItem recentFilesToolStripMenuItem;
+        private ToolStripMenuItem blahToolStripMenuItem;
     }
 }
