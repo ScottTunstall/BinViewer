@@ -6,45 +6,7 @@ using System.Threading.Tasks;
 
 namespace BinViewer
 {
-    public class GridRenderParams
+    public record GridRenderParams(Graphics Graphics, int StartX, int StartY, int Columns, int Rows, int CellsPerColumn, int CellWidth, int CellHeight, Pen CellPen)
     {
-        public GridRenderParams(Graphics graphics, int startX, int startY, int columns, int rows, int cellsPerColumn, int cellWidth, int cellHeight, Pen cellPen)
-        {
-
-            Graphics = graphics ?? throw new ArgumentNullException(nameof(graphics));
-
-            StartX = startX;
-            StartY = startY;
-
-            if (columns <= 0) throw new ArgumentOutOfRangeException(nameof(columns));
-            Columns = columns;
-
-            if (rows <= 0) throw new ArgumentOutOfRangeException(nameof(rows));
-            Rows = rows;
-
-            if (cellWidth <= 0) throw new ArgumentOutOfRangeException(nameof(cellWidth));
-            CellWidth = cellWidth;
-
-            if (cellHeight <= 0) throw new ArgumentOutOfRangeException(nameof(cellHeight));
-            CellHeight = cellHeight;
-
-            if (cellsPerColumn <= 0) throw new ArgumentOutOfRangeException(nameof(cellsPerColumn));
-            CellsPerColumn = cellsPerColumn;
-
-            CellPen = cellPen ?? throw new ArgumentNullException(nameof(cellPen));
-        }
-
-
-        public Graphics Graphics { get; private set; }
-        public int StartX { get; init; }
-        public int StartY { get; init; }
-        public int Columns { get; init; }
-        public int Rows { get; init; }
-
-        public int CellsPerColumn { get; set; }
-        public int CellWidth { get; init; }
-        public int CellHeight { get; init; }
-
-        public Pen CellPen { get; init; }
     }
 }
