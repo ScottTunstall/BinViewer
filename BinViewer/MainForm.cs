@@ -1,8 +1,10 @@
 //
 // Software developed by Scott Tunstall B.Sc
 // Contact: scott.tunstall@ntlworld.com
+// If you like this app and want to buy me a coffee, feel free! https://ko-fi.com/scotttunstall
 //
 
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace BinViewer
@@ -15,14 +17,16 @@ namespace BinViewer
         private const int MaxZoomFactor = 8;
         private const int PixelsPerByte = 8; // 8 pixels packed to 1 byte, meaning 1bit per pixel (1bpp)
 
-        private readonly SpriteMemoryManager _memoryManager;
-        private readonly MostRecentlyUsedFilesManager _mruFilesManager;
+        private readonly SpriteMemoryManager _spriteMemoryManager;
+        private readonly MostRecentlyUsedFilesManager _mostRecentlyUsedFilesManager;
         private long _maxOffset;
+        private readonly ILogger _logger;
 
-        public MainForm(IOptions<AppSettings> settings)
+        public MainForm(IOptions<AppSettings> settings, ILogger<MainForm> logger)
         {
-            _memoryManager = new();
-            _mruFilesManager = new(settings.Value.SettingsSubKey, settings.Value.MaxRecentlyUsedFiles);
+            _spriteMemoryManager = new();
+            _mostRecentlyUsedFilesManager = new(settings.Value.SettingsSubKey, settings.Value.MaxRecentlyUsedFiles);
+            _logger = logger;
 
             InitializeComponent();
             ResetTitle();
@@ -71,12 +75,7 @@ namespace BinViewer
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var result = openFileDialog.ShowDialog(this);
-
-            if (result != DialogResult.OK)
-                return;
-
-            LoadFile(openFileDialog.FileName);
+            ShowOpenFileDialog();
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -91,11 +90,9 @@ namespace BinViewer
 
         private void copyRenderAreaToClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var clipboardCopier = new ControlRenderAreaToClipboardCopier();
-            clipboardCopier.CopyFrom(this, pictureBox1.Location, pictureBox1.Width, pictureBox1.Height);
-
-            MessageBox.Show("Render area copied to clipboard.");
+            CopyRenderAreaToClipboard();
         }
+
 
         private void resetZoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -120,10 +117,11 @@ namespace BinViewer
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            // TODO: Move into a control derived from PictureBox so we can encapsulate this logic
             using var backGroundBrush = new SolidBrush(pictureBox1.BackColor);
             e.Graphics.FillRectangle(backGroundBrush, e.ClipRectangle);
 
-            if (!_memoryManager.HasData)
+            if (!_spriteMemoryManager.HasData)
                 return;
 
             var offset = (int)offsetUpDown.Value;
@@ -132,7 +130,7 @@ namespace BinViewer
             var zoomFactor = (int)zoomUpDown.Value;
             var enableGrid = viewGridlinesToolStripMenuItem.Checked;
 
-            if (!_memoryManager.TryGetBytes(offset, bytesPerRow * rows, out var bytes))
+            if (!_spriteMemoryManager.TryGetBytes(offset, bytesPerRow * rows, out var bytes))
                 return;
 
             if (enableGrid)
@@ -157,20 +155,50 @@ namespace BinViewer
             this.Text = $"{fileName} - {Title}";
         }
 
+        private void ShowOpenFileDialog()
+        {
+            var result = openFileDialog.ShowDialog(this);
+
+            if (result != DialogResult.OK)
+                return;
+
+            var fileName = openFileDialog.FileName;
+
+            try
+            {
+                LoadFile(fileName);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show($"The file{Environment.NewLine}'{fileName}`{Environment.NewLine} could not be loaded.");
+            }
+        }
+
         private void LoadFile(string fileName)
         {
-            var fileSize = _memoryManager.Load(fileName);
-            SetMaxOffset(fileSize - 1);
-            SetFileNameInTitle(fileName);
-            AddToMostRecentlyUsedFiles(fileName);
-            ResetZoom();
-            EnableEditing();
-            pictureBox1.Invalidate();
+            try
+            {
+                var fileSize = _spriteMemoryManager.Load(fileName);
+                SetMaxOffset(fileSize - 1);
+                SetFileNameInTitle(fileName);
+                AddToMostRecentlyUsedFiles(fileName);
+                ResetZoom();
+                EnableEditing();
+
+                pictureBox1.Invalidate();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"{nameof(LoadFile)}: MISSINGFILE: could not load file: {fileName}");
+                
+                // It's not for this method to decide what to do if you can't load a file - throw it up to its caller
+                throw;
+            }
         }
 
         private void CloseFile()
         {
-            _memoryManager.Close();
+            _spriteMemoryManager.Close();
 
             ResetTitle();
             ResetMaxOffset();
@@ -179,11 +207,9 @@ namespace BinViewer
             pictureBox1.Invalidate();
         }
 
-
-
         private void AddToMostRecentlyUsedFiles(string fileName)
         {
-            _mruFilesManager.Add(fileName);
+            _mostRecentlyUsedFilesManager.Add(fileName);
             LoadMostRecentlyUsedFiles();
         }
 
@@ -192,14 +218,63 @@ namespace BinViewer
             var dropDownItems = recentFilesToolStripMenuItem.DropDownItems;
             dropDownItems.Clear();
 
-            var mostRecentlyUsedFileNames = _mruFilesManager.Get().ToList();
-            for (int i=0; i<mostRecentlyUsedFileNames.Count; i++)
+            var mostRecentlyUsedFileNames = _mostRecentlyUsedFilesManager.Get().ToList();
+
+            for (int i = 0; i < mostRecentlyUsedFileNames.Count; i++)
             {
-                var toolStripItem = new ToolStripMenuItem($"&{i+1}. {mostRecentlyUsedFileNames[i]}");
+                var toolStripItem = new ToolStripMenuItem();
+                toolStripItem.Text = i < 9 ?
+                    $"&{i + 1}. {mostRecentlyUsedFileNames[i]}" :
+                    $"{i + 1}. {mostRecentlyUsedFileNames[i]}";
+
+                toolStripItem.Tag = mostRecentlyUsedFileNames[i];
+                toolStripItem.Click += MostRecentlyUsedFile_Click;
                 dropDownItems.Add(toolStripItem);
             }
 
-            recentFilesToolStripMenuItem.Enabled = recentFilesToolStripMenuItem.Visible = mostRecentlyUsedFileNames.Any();
+            recentFilesToolStripMenuItem.Visible = mostRecentlyUsedFileNames.Any();
+        }
+
+        private void MostRecentlyUsedFile_Click(object? sender, EventArgs e)
+        {
+            var toolStripItem = sender as ToolStripMenuItem;
+            var fileName = (string)toolStripItem!.Tag;
+
+            try
+            {
+                LoadFile(fileName);
+            }
+            catch (FileNotFoundException)
+            {
+                ShowConfirmRemovalOfMissingFileDialog(fileName);
+            }
+        }
+
+        private void ShowConfirmRemovalOfMissingFileDialog(string fileName)
+        {
+            var result = MessageBox.Show($"The file or folder {Environment.NewLine}'{fileName}'{Environment.NewLine}cannot be opened. Do you want to remove the references to it from the recent list?", Title, MessageBoxButtons.YesNo);
+            if (result != DialogResult.Yes)
+                return;
+
+            _mostRecentlyUsedFilesManager.Remove(fileName);
+            LoadMostRecentlyUsedFiles();
+        }
+
+        private void ShowCopyAsBinaryDialog()
+        {
+            var offset = (int)offsetUpDown.Value;
+            var bytesPerRow = (int)bytesPerRowUpdown.Value;
+            var rows = (int)rowsUpDown.Value;
+
+            var optionsForm = new CopyAsBinaryToClipboardForm(offset, bytesPerRow, rows, _spriteMemoryManager);
+            optionsForm.ShowDialog(this);
+        }
+
+        private void CopyRenderAreaToClipboard()
+        {
+            var clipboardCopier = new ControlRenderAreaToClipboardCopier();
+            clipboardCopier.CopyFrom(this, pictureBox1.Location, pictureBox1.Width, pictureBox1.Height);
+            MessageBox.Show("Render area copied to clipboard.");
         }
 
         private void SetMaxOffset(long maxOffset)
@@ -227,27 +302,11 @@ namespace BinViewer
             pictureBox1.Invalidate();
         }
 
-        private void ShowCopyAsBinaryDialog()
-        {
-            var offset = (int)offsetUpDown.Value;
-            var bytesPerRow = (int)bytesPerRowUpdown.Value;
-            var rows = (int)rowsUpDown.Value;
-
-            var optionsForm = new CopyAsBinaryToClipboardForm(offset, bytesPerRow, rows, _memoryManager);
-            optionsForm.ShowDialog(this);
-        }
-
         private void ZoomIn()
         {
             var zoomFactor = (int)zoomUpDown.Value;
-
-            if (zoomFactor >= MaxZoomFactor)
-            {
-                zoomUpDown.Value = MaxZoomFactor;
-                return;
-            }
-
             zoomFactor++;
+            zoomFactor = Math.Min(zoomFactor, MaxZoomFactor);
             zoomUpDown.Value = zoomFactor;
 
             if (zoomFactor == MaxZoomFactor)
@@ -263,14 +322,8 @@ namespace BinViewer
         private void ZoomOut()
         {
             var zoomFactor = (int)zoomUpDown.Value;
-
-            if (zoomFactor <= MinZoomFactor)
-            {
-                zoomUpDown.Value = MinZoomFactor;
-                return;
-            }
-
             zoomFactor--;
+            zoomFactor = Math.Max(zoomFactor, MinZoomFactor);
             zoomUpDown.Value = zoomFactor;
 
             if (zoomFactor == MinZoomFactor)

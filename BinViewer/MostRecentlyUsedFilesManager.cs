@@ -41,6 +41,21 @@ namespace BinViewer
         }
 
 
+        public void Remove(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(fileName));
+
+            if (fileName.Contains(Delimiter))
+                throw new ArgumentException($"Value must not contain '{Delimiter}", nameof(fileName));
+
+            var recentFiles = Get().ToList();
+            recentFiles.RemoveAll(mru => string.Equals(mru, fileName, StringComparison.CurrentCultureIgnoreCase));
+
+            var toBeSavedInRegistry = recentFiles.Take(_maxRecentlyUsedFiles);
+            Set(toBeSavedInRegistry);
+        }
+
 
         public IEnumerable<string> Get()
         {

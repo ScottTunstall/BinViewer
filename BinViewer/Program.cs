@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace BinViewer
 {
@@ -23,7 +24,11 @@ namespace BinViewer
         private static IHostBuilder CreateHostBuilder()
         {
             return Host.CreateDefaultBuilder()
-                .ConfigureServices((context, services) => {
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddLogging((loggingBuilder) => loggingBuilder
+                        .SetMinimumLevel(LogLevel.Trace)
+                        .AddConsole());
                     //services.AddScoped<TInterface, TImplementation>();
                     services.Configure<AppSettings>(context.Configuration.GetSection("AppSettings"));
                     services.AddTransient<MainForm>();

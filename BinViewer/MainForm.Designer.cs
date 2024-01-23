@@ -105,7 +105,6 @@
             // recentFilesToolStripMenuItem
             // 
             recentFilesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { blahToolStripMenuItem });
-            recentFilesToolStripMenuItem.Enabled = false;
             recentFilesToolStripMenuItem.Name = "recentFilesToolStripMenuItem";
             recentFilesToolStripMenuItem.Size = new Size(187, 22);
             recentFilesToolStripMenuItem.Text = "Recent &Files";
@@ -289,7 +288,7 @@
             // zoomUpDown
             // 
             zoomUpDown.Enabled = false;
-            zoomUpDown.Location = new Point(553, 31);
+            zoomUpDown.Location = new Point(550, 29);
             zoomUpDown.Margin = new Padding(2);
             zoomUpDown.Maximum = new decimal(new int[] { 16, 0, 0, 0 });
             zoomUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });

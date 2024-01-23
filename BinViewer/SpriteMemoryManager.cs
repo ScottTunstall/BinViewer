@@ -28,7 +28,11 @@
             if (string.IsNullOrWhiteSpace(fileName))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(fileName));
 
+            if (!File.Exists(fileName))
+                throw new FileNotFoundException($"{nameof(Load)}: the file {fileName} does not exist.", fileName);
+
             FreeMemory();
+            
             _stream = new MemoryStream(File.ReadAllBytes(fileName));
             return _stream.Length;
         }
