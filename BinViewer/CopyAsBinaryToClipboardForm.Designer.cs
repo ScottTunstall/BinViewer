@@ -246,7 +246,6 @@
             FormatAddressesAsThirtyTwoBitRadioButton.TabIndex = 4;
             FormatAddressesAsThirtyTwoBitRadioButton.Text = "32-bit";
             FormatAddressesAsThirtyTwoBitRadioButton.UseVisualStyleBackColor = true;
-            FormatAddressesAsThirtyTwoBitRadioButton.CheckedChanged += FormatAddressesAsThirtyTwoBitRadioButton_CheckedChanged;
             // 
             // FormatAddressesAsSixteenBitRadioButton
             // 
@@ -260,7 +259,6 @@
             FormatAddressesAsSixteenBitRadioButton.TabStop = true;
             FormatAddressesAsSixteenBitRadioButton.Text = "16-Bit";
             FormatAddressesAsSixteenBitRadioButton.UseVisualStyleBackColor = true;
-            FormatAddressesAsSixteenBitRadioButton.CheckedChanged += FormatAddressesAsSixteenBitRadioButton_CheckedChanged;
             // 
             // FormatAddressesAsLabel
             // 

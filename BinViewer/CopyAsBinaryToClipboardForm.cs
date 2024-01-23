@@ -24,7 +24,6 @@
         {
             SetBytesPerRowRadios();
             SetOriginFormattingRadiosFromRequireOriginCheckbox();
-            SetOriginUpdownMaxValueFromRadios();
         }
 
         private void IncludeMemoryAddressCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -32,15 +31,6 @@
             SetOriginFormattingRadiosFromRequireOriginCheckbox();
         }
 
-        private void FormatAddressesAsSixteenBitRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            SetOriginUpdownMaxValueFromRadios();
-        }
-
-        private void FormatAddressesAsThirtyTwoBitRadioButton_CheckedChanged(object sender, EventArgs e)
-        {
-            SetOriginUpdownMaxValueFromRadios();
-        }
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
@@ -63,21 +53,6 @@
             BytesPerRowRadioButton.Checked = _originalBytesPerRow > 1;
             BytesPerRowRadioButton.Text = $"{_originalBytesPerRow} bytes per row";
         }
-
-        private void SetOriginUpdownMaxValueFromRadios()
-        {
-            var oldValue = (uint)OriginUpDown.Maximum;
-            if (FormatAddressesAsSixteenBitRadioButton.Checked)
-            {
-                OriginUpDown.Maximum = ushort.MaxValue;
-                OriginUpDown.Value = (ushort) (oldValue & 0xffff);
-            }
-            else
-            {
-                OriginUpDown.Maximum = int.MaxValue;
-            }
-        }
-
 
 
         private void CopyBinaryToClipboard()
@@ -127,7 +102,5 @@
 
             return ",";
         }
-
-
     }
 }
