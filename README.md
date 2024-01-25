@@ -22,7 +22,7 @@ If you see any sprites you like and wish to clone (steal) for your own games, us
 <img width="189" alt="image" src="https://user-images.githubusercontent.com/34286887/209685819-afeda96a-c334-464e-974b-850e985a7444.png">
 
 
-### Keyboard shortcuts
+### Handy keyboard shortcuts
 
 Use **CTRL+G** to toggle grid on/off. This lets you identify individual pixels in a sprite.
 
