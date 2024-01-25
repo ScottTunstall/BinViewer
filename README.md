@@ -46,6 +46,7 @@ BTW: Use at your own risk. It probably has MemorySteam memory leaks somewhere. I
 ## Next steps planned: 
 
 * show bytes as hex next to image
+* Show every 8 pixels as a red line, so you can see byte boundaries
 * Create DATA statements for BASIC so that homebrew devs can create sprites too
 * Colour selectors for grid and pixels (not top of my list tbh)
 * Context menus for the bytes per column control and rows updown control. The former to have multiples of 2 and the latter to have multiples of 8 as dropdowns.
