@@ -4,7 +4,7 @@ View/ extract 1bpp pixel art/fonts from old arcade games/ spectrum / C64 / Amstr
 
 ## How to use
 
-When you run the app simply "File | Open" the ROM file you think has character/sprite data in it, then keep incrementing the offset up/down button until you see graphical data that looks promising. 
+When you run the app simply **File | Open** the ROM file you think has character/sprite data in it, then keep incrementing the offset up/down button until you see graphical data that looks promising. 
 
 Select bytes per row (1 byte = 8 pixels width) and how many rows tall the pixel data is, to get the sprite to look "right". 
 
