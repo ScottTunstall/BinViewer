@@ -1,6 +1,7 @@
 # BinViewer
-View/ extract 1bpp pixel art/fonts from old arcade games/ spectrum / C64 / Amstrad CPC. 
+View/ extract 1bpp pixel art/fonts from old arcade games/ spectrum / C64 / Amstrad CPC.
 
+If you like this and want to see it continue to be developed, I accept cheap bribes: https://ko-fi.com/scotttunstall
 
 ## How to use
 
