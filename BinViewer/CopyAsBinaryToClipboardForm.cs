@@ -1,4 +1,6 @@
-﻿namespace BinViewer
+﻿using System.Text;
+
+namespace BinViewer
 {
     public partial class CopyAsBinaryToClipboardForm : Form
     {
@@ -31,19 +33,43 @@
             SetOriginFormattingRadiosFromRequireOriginCheckbox();
         }
 
+        private void OriginTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            var keypressed = e.KeyChar;
+
+            if (keypressed == (char)Keys.Back || keypressed == (char)Keys.Delete)
+                return;
+
+            if (!keypressed.IsHexadecimal())
+                e.Handled = true;
+
+            e.KeyChar = char.ToUpper(keypressed);
+        }
+
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
-            CopyBinaryToClipboard();
+            if (!TryValidateInput(out var validationFailures))
+            {
+                ShowValidationFailureDialog("Copy failed", validationFailures);
+                DialogResult = DialogResult.None;
+                return;
+            }
+
+            int rows = CopyBinaryToClipboard();
+
+            ShowCopyBinarySuccessDialog(rows);
         }
+
+
 
         private void SetOriginFormattingRadiosFromRequireOriginCheckbox()
         {
-            FormatAddressesAsLabel.Enabled = IncludeMemoryAddressCheckBox.Checked;
-            FormatAddressesAsSixteenBitRadioButton.Enabled = IncludeMemoryAddressCheckBox.Checked;
-            FormatAddressesAsThirtyTwoBitRadioButton.Enabled = IncludeMemoryAddressCheckBox.Checked;
+            AddressSizeLabel.Enabled = IncludeMemoryAddressCheckBox.Checked;
+            AddressSize16BitRadioButton.Enabled = IncludeMemoryAddressCheckBox.Checked;
+            AddressSize32BitRadioButton.Enabled = IncludeMemoryAddressCheckBox.Checked;
             SetOriginLabel.Enabled = IncludeMemoryAddressCheckBox.Checked;
-            OriginUpDown.Enabled = IncludeMemoryAddressCheckBox.Checked;
+            OriginTextBox.Enabled = IncludeMemoryAddressCheckBox.Checked;
         }
 
         private void SetBytesPerRowRadios()
@@ -55,7 +81,42 @@
         }
 
 
-        private void CopyBinaryToClipboard()
+        private bool TryValidateInput(out IEnumerable<string> errors)
+        {
+            var errorList = new List<string>();
+
+            if (IncludeMemoryAddressCheckBox.Checked)
+            {
+                if (!uint.TryParse(OriginTextBox.Text, System.Globalization.NumberStyles.HexNumber, null, out uint origin))
+                {
+                    errorList.Add("Origin is not a valid hexadecimal number.");
+                }
+
+                if (AddressSize16BitRadioButton.Checked && origin >ushort.MaxValue)
+                {
+                    errorList.Add($"When formatting addresses as 16-bit, origin can only be between 0-0x{ushort.MaxValue:X}.");
+                }
+            }
+
+            errors = errorList;
+            return !errors.Any();
+        }
+
+
+        private void ShowValidationFailureDialog(string title, IEnumerable<string> validationFailures)
+        {
+            StringBuilder sb = new();
+            sb.Append("There were input validation failures:");
+            sb.Append(Environment.NewLine);
+            sb.Append(Environment.NewLine);
+            sb.AppendJoin(Environment.NewLine, validationFailures);
+
+            MessageBox.Show(sb.ToString());
+        }
+
+
+
+        private int CopyBinaryToClipboard()
         {
             (int bytesPerRow, int rows) = GetBytesPerRowAndRows();
 
@@ -65,8 +126,7 @@
             string asBinaryString;
             if (IncludeMemoryAddressCheckBox.Checked)
             {
-                int origin = (int)OriginUpDown.Value;
-                asBinaryString = binaryGenerator.FromBytes(data, origin, GetAddressDigitPadding(), bytesPerRow, rows, GetSeparator());
+                asBinaryString = binaryGenerator.FromBytes(data, OriginTextBox.Text, GetAddressDigitPadding(), bytesPerRow, rows, GetSeparator());
             }
             else
             {
@@ -74,9 +134,15 @@
             }
 
             Clipboard.SetText(asBinaryString);
-
-            MessageBox.Show($"Copied binary for {_rows} row(s) to clipboard.");
+            return rows;
         }
+
+
+        private void ShowCopyBinarySuccessDialog(int rowsCopied)
+        {
+            MessageBox.Show($"Copied binary for {rowsCopied} row(s) to clipboard.");
+        }
+
 
         private (int bytesPerRow, int rows) GetBytesPerRowAndRows()
         {
@@ -85,7 +151,7 @@
 
         private int GetAddressDigitPadding()
         {
-            return FormatAddressesAsSixteenBitRadioButton.Checked ? HexDigitsFor16BitAddress : HexDigitsFor32BitAddress;
+            return AddressSize16BitRadioButton.Checked ? HexDigitsFor16BitAddress : HexDigitsFor32BitAddress;
         }
 
         private string GetSeparator()
@@ -102,5 +168,6 @@
 
             return ",";
         }
+
     }
 }

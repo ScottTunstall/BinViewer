@@ -114,7 +114,7 @@
             // 
             blahToolStripMenuItem.Name = "blahToolStripMenuItem";
             blahToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.D1;
-            blahToolStripMenuItem.Size = new Size(180, 22);
+            blahToolStripMenuItem.Size = new Size(137, 22);
             blahToolStripMenuItem.Text = "Blah";
             // 
             // editToolStripMenuItem
@@ -215,12 +215,13 @@
             // offsetUpDown
             // 
             offsetUpDown.Enabled = false;
+            offsetUpDown.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
             offsetUpDown.Hexadecimal = true;
             offsetUpDown.Location = new Point(87, 28);
             offsetUpDown.Margin = new Padding(2);
             offsetUpDown.Maximum = new decimal(new int[] { -1, 0, 0, 0 });
             offsetUpDown.Name = "offsetUpDown";
-            offsetUpDown.Size = new Size(92, 23);
+            offsetUpDown.Size = new Size(79, 22);
             offsetUpDown.TabIndex = 2;
             offsetUpDown.ValueChanged += offsetUpDown_ValueChanged;
             offsetUpDown.KeyDown += offsetUpDown_KeyDown;

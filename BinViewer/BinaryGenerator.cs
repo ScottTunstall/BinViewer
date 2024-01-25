@@ -4,10 +4,16 @@ namespace BinViewer
 {
     public class BinaryGenerator
     {
-        public string FromBytes(byte[] data, int startAddress, int numberOfHexDigitsForAddress, int bytesPerRow, int numRows, string separator)
+        public string FromBytes(byte[] data, string originAsHex, int numberOfHexDigitsForAddress, int bytesPerRow, int numRows, string separator)
+        {
+            uint origin = Convert.ToUInt32(originAsHex, 16);
+            return FromBytes(data, origin, numberOfHexDigitsForAddress, bytesPerRow, numRows, separator);
+        }
+
+        public string FromBytes(byte[] data, uint origin, int numberOfHexDigitsForAddress, int bytesPerRow, int numRows, string separator)
         {
             int dataOffset = 0;
-            int currentAddress = startAddress;
+            uint currentAddress = origin;
 
             StringBuilder sb = new();
             for (int i = 0; i < numRows; i++)
@@ -17,11 +23,12 @@ namespace BinViewer
                 sb.Append(":\t");
                 var binaryAsString = GenerateBinaryForRow(data, dataOffset, bytesPerRow, separator);
                 sb.AppendLine(binaryAsString);
-                currentAddress += (int)bytesPerRow;
+                currentAddress += (uint)bytesPerRow;
                 dataOffset += bytesPerRow;
             }
             return sb.ToString();
         }
+
 
         public string FromBytes(byte[] data, int bytesPerRow, int numRows, string separator)
         {
@@ -36,7 +43,7 @@ namespace BinViewer
             return sb.ToString();
         }
 
-        private string GenerateHexAddress(int address, int numberOfHexDigitsForAddress)
+        private string GenerateHexAddress(uint address, int numberOfHexDigitsForAddress)
         {
             return address.ToString("X").PadLeft(numberOfHexDigitsForAddress, '0');
         }

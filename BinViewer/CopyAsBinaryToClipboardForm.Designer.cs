@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             labelSetOrigin = new Label();
-            OriginUpDown = new NumericUpDown();
             CopyButton = new Button();
             button1 = new Button();
             IncludeMemoryAddressCheckBox = new CheckBox();
@@ -44,10 +43,10 @@
             OneBytePerRowRadioButton = new RadioButton();
             BytesPerRowLabel = new Label();
             MemoryAddressPanel = new Panel();
-            FormatAddressesAsThirtyTwoBitRadioButton = new RadioButton();
-            FormatAddressesAsSixteenBitRadioButton = new RadioButton();
-            FormatAddressesAsLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)OriginUpDown).BeginInit();
+            OriginTextBox = new TextBox();
+            AddressSize32BitRadioButton = new RadioButton();
+            AddressSize16BitRadioButton = new RadioButton();
+            AddressSizeLabel = new Label();
             SeparateByteBitsByPanel.SuspendLayout();
             BytesPerRowPanel.SuspendLayout();
             MemoryAddressPanel.SuspendLayout();
@@ -62,16 +61,6 @@
             labelSetOrigin.Size = new Size(0, 15);
             labelSetOrigin.TabIndex = 0;
             // 
-            // OriginUpDown
-            // 
-            OriginUpDown.Hexadecimal = true;
-            OriginUpDown.Location = new Point(147, 45);
-            OriginUpDown.Margin = new Padding(2);
-            OriginUpDown.Maximum = new decimal(new int[] { 65535, 0, 0, 0 });
-            OriginUpDown.Name = "OriginUpDown";
-            OriginUpDown.Size = new Size(75, 23);
-            OriginUpDown.TabIndex = 6;
-            // 
             // CopyButton
             // 
             CopyButton.DialogResult = DialogResult.OK;
@@ -79,7 +68,7 @@
             CopyButton.Margin = new Padding(2);
             CopyButton.Name = "CopyButton";
             CopyButton.Size = new Size(78, 27);
-            CopyButton.TabIndex = 14;
+            CopyButton.TabIndex = 15;
             CopyButton.Text = "&Copy";
             CopyButton.UseVisualStyleBackColor = true;
             CopyButton.Click += CopyButton_Click;
@@ -88,11 +77,11 @@
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button1.DialogResult = DialogResult.Cancel;
-            button1.Location = new Point(300, 143);
+            button1.Location = new Point(294, 143);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(78, 27);
-            button1.TabIndex = 15;
+            button1.TabIndex = 16;
             button1.Text = "Cancel";
             button1.UseVisualStyleBackColor = true;
             // 
@@ -105,7 +94,7 @@
             IncludeMemoryAddressCheckBox.Margin = new Padding(2);
             IncludeMemoryAddressCheckBox.Name = "IncludeMemoryAddressCheckBox";
             IncludeMemoryAddressCheckBox.Size = new Size(158, 19);
-            IncludeMemoryAddressCheckBox.TabIndex = 1;
+            IncludeMemoryAddressCheckBox.TabIndex = 0;
             IncludeMemoryAddressCheckBox.Text = "Include memory &Address";
             IncludeMemoryAddressCheckBox.UseVisualStyleBackColor = true;
             IncludeMemoryAddressCheckBox.CheckedChanged += IncludeMemoryAddressCheckBox_CheckedChanged;
@@ -113,12 +102,12 @@
             // SetOriginLabel
             // 
             SetOriginLabel.AutoSize = true;
-            SetOriginLabel.Location = new Point(13, 47);
+            SetOriginLabel.Location = new Point(2, 47);
             SetOriginLabel.Margin = new Padding(2, 0, 2, 0);
             SetOriginLabel.Name = "SetOriginLabel";
-            SetOriginLabel.Size = new Size(111, 15);
-            SetOriginLabel.TabIndex = 5;
-            SetOriginLabel.Text = "Set &Origin (ORG) to:";
+            SetOriginLabel.Size = new Size(141, 15);
+            SetOriginLabel.TabIndex = 4;
+            SetOriginLabel.Text = "Set &Origin (ORG) to (hex):";
             // 
             // SeparateByteBitsByPanel
             // 
@@ -126,30 +115,30 @@
             SeparateByteBitsByPanel.Controls.Add(SeparateByNothingRadioButton);
             SeparateByteBitsByPanel.Controls.Add(seperateByCommaRadioButton);
             SeparateByteBitsByPanel.Controls.Add(seperateBySpaceRadioButton);
-            SeparateByteBitsByPanel.Location = new Point(12, 113);
+            SeparateByteBitsByPanel.Location = new Point(11, 75);
             SeparateByteBitsByPanel.Margin = new Padding(2);
             SeparateByteBitsByPanel.Name = "SeparateByteBitsByPanel";
-            SeparateByteBitsByPanel.Size = new Size(366, 26);
-            SeparateByteBitsByPanel.TabIndex = 5;
+            SeparateByteBitsByPanel.Size = new Size(360, 26);
+            SeparateByteBitsByPanel.TabIndex = 6;
             // 
             // SeparateByteBitsByLabel
             // 
             SeparateByteBitsByLabel.AutoSize = true;
-            SeparateByteBitsByLabel.Location = new Point(6, 5);
+            SeparateByteBitsByLabel.Location = new Point(6, 7);
             SeparateByteBitsByLabel.Margin = new Padding(2, 0, 2, 0);
             SeparateByteBitsByLabel.Name = "SeparateByteBitsByLabel";
-            SeparateByteBitsByLabel.Size = new Size(119, 15);
-            SeparateByteBitsByLabel.TabIndex = 10;
-            SeparateByteBitsByLabel.Text = "Separate byte bits by:";
+            SeparateByteBitsByLabel.Size = new Size(139, 15);
+            SeparateByteBitsByLabel.TabIndex = 7;
+            SeparateByteBitsByLabel.Text = "Separate binary digits by:";
             // 
             // SeparateByNothingRadioButton
             // 
             SeparateByNothingRadioButton.AutoSize = true;
-            SeparateByNothingRadioButton.Location = new Point(279, 3);
+            SeparateByNothingRadioButton.Location = new Point(276, 5);
             SeparateByNothingRadioButton.Margin = new Padding(2);
             SeparateByNothingRadioButton.Name = "SeparateByNothingRadioButton";
             SeparateByNothingRadioButton.Size = new Size(69, 19);
-            SeparateByNothingRadioButton.TabIndex = 13;
+            SeparateByNothingRadioButton.TabIndex = 10;
             SeparateByNothingRadioButton.Text = "Nothing";
             SeparateByNothingRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -157,11 +146,11 @@
             // 
             seperateByCommaRadioButton.AutoSize = true;
             seperateByCommaRadioButton.Checked = true;
-            seperateByCommaRadioButton.Location = new Point(147, 2);
+            seperateByCommaRadioButton.Location = new Point(147, 5);
             seperateByCommaRadioButton.Margin = new Padding(2);
             seperateByCommaRadioButton.Name = "seperateByCommaRadioButton";
             seperateByCommaRadioButton.Size = new Size(68, 19);
-            seperateByCommaRadioButton.TabIndex = 11;
+            seperateByCommaRadioButton.TabIndex = 8;
             seperateByCommaRadioButton.TabStop = true;
             seperateByCommaRadioButton.Text = "Comma";
             seperateByCommaRadioButton.UseVisualStyleBackColor = true;
@@ -169,11 +158,11 @@
             // seperateBySpaceRadioButton
             // 
             seperateBySpaceRadioButton.AutoSize = true;
-            seperateBySpaceRadioButton.Location = new Point(216, 2);
+            seperateBySpaceRadioButton.Location = new Point(216, 5);
             seperateBySpaceRadioButton.Margin = new Padding(2);
             seperateBySpaceRadioButton.Name = "seperateBySpaceRadioButton";
             seperateBySpaceRadioButton.Size = new Size(56, 19);
-            seperateBySpaceRadioButton.TabIndex = 12;
+            seperateBySpaceRadioButton.TabIndex = 9;
             seperateBySpaceRadioButton.Text = "Space";
             seperateBySpaceRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -182,99 +171,110 @@
             BytesPerRowPanel.Controls.Add(BytesPerRowRadioButton);
             BytesPerRowPanel.Controls.Add(OneBytePerRowRadioButton);
             BytesPerRowPanel.Controls.Add(BytesPerRowLabel);
-            BytesPerRowPanel.Location = new Point(12, 85);
+            BytesPerRowPanel.Location = new Point(12, 105);
             BytesPerRowPanel.Margin = new Padding(2);
             BytesPerRowPanel.Name = "BytesPerRowPanel";
-            BytesPerRowPanel.Size = new Size(367, 24);
-            BytesPerRowPanel.TabIndex = 4;
+            BytesPerRowPanel.Size = new Size(360, 24);
+            BytesPerRowPanel.TabIndex = 11;
             // 
             // BytesPerRowRadioButton
             // 
             BytesPerRowRadioButton.AutoSize = true;
-            BytesPerRowRadioButton.Checked = true;
-            BytesPerRowRadioButton.Location = new Point(216, 4);
+            BytesPerRowRadioButton.Location = new Point(216, 2);
             BytesPerRowRadioButton.Margin = new Padding(2);
             BytesPerRowRadioButton.Name = "BytesPerRowRadioButton";
             BytesPerRowRadioButton.Size = new Size(120, 19);
-            BytesPerRowRadioButton.TabIndex = 9;
-            BytesPerRowRadioButton.TabStop = true;
+            BytesPerRowRadioButton.TabIndex = 14;
             BytesPerRowRadioButton.Text = "999 Bytes Per Row";
             BytesPerRowRadioButton.UseVisualStyleBackColor = true;
             // 
             // OneBytePerRowRadioButton
             // 
             OneBytePerRowRadioButton.AutoSize = true;
+            OneBytePerRowRadioButton.Checked = true;
             OneBytePerRowRadioButton.Location = new Point(147, 1);
             OneBytePerRowRadioButton.Margin = new Padding(2);
             OneBytePerRowRadioButton.Name = "OneBytePerRowRadioButton";
             OneBytePerRowRadioButton.Size = new Size(47, 19);
-            OneBytePerRowRadioButton.TabIndex = 8;
+            OneBytePerRowRadioButton.TabIndex = 13;
+            OneBytePerRowRadioButton.TabStop = true;
             OneBytePerRowRadioButton.Text = "One";
             OneBytePerRowRadioButton.UseVisualStyleBackColor = true;
             // 
             // BytesPerRowLabel
             // 
             BytesPerRowLabel.AutoSize = true;
-            BytesPerRowLabel.Location = new Point(4, 5);
+            BytesPerRowLabel.Location = new Point(57, 5);
             BytesPerRowLabel.Margin = new Padding(2, 0, 2, 0);
             BytesPerRowLabel.Name = "BytesPerRowLabel";
             BytesPerRowLabel.Size = new Size(84, 15);
-            BytesPerRowLabel.TabIndex = 7;
+            BytesPerRowLabel.TabIndex = 12;
             BytesPerRowLabel.Text = "Bytes Per Row:";
             // 
             // MemoryAddressPanel
             // 
-            MemoryAddressPanel.Controls.Add(FormatAddressesAsThirtyTwoBitRadioButton);
-            MemoryAddressPanel.Controls.Add(FormatAddressesAsSixteenBitRadioButton);
-            MemoryAddressPanel.Controls.Add(FormatAddressesAsLabel);
+            MemoryAddressPanel.Controls.Add(OriginTextBox);
+            MemoryAddressPanel.Controls.Add(AddressSize32BitRadioButton);
+            MemoryAddressPanel.Controls.Add(AddressSize16BitRadioButton);
+            MemoryAddressPanel.Controls.Add(AddressSizeLabel);
             MemoryAddressPanel.Controls.Add(SetOriginLabel);
             MemoryAddressPanel.Controls.Add(IncludeMemoryAddressCheckBox);
-            MemoryAddressPanel.Controls.Add(OriginUpDown);
             MemoryAddressPanel.Location = new Point(12, 4);
             MemoryAddressPanel.Margin = new Padding(2);
             MemoryAddressPanel.Name = "MemoryAddressPanel";
-            MemoryAddressPanel.Size = new Size(369, 77);
+            MemoryAddressPanel.Size = new Size(360, 68);
             MemoryAddressPanel.TabIndex = 0;
             // 
-            // FormatAddressesAsThirtyTwoBitRadioButton
+            // OriginTextBox
             // 
-            FormatAddressesAsThirtyTwoBitRadioButton.AutoSize = true;
-            FormatAddressesAsThirtyTwoBitRadioButton.Location = new Point(216, 23);
-            FormatAddressesAsThirtyTwoBitRadioButton.Margin = new Padding(2);
-            FormatAddressesAsThirtyTwoBitRadioButton.Name = "FormatAddressesAsThirtyTwoBitRadioButton";
-            FormatAddressesAsThirtyTwoBitRadioButton.Size = new Size(56, 19);
-            FormatAddressesAsThirtyTwoBitRadioButton.TabIndex = 4;
-            FormatAddressesAsThirtyTwoBitRadioButton.Text = "32-bit";
-            FormatAddressesAsThirtyTwoBitRadioButton.UseVisualStyleBackColor = true;
+            OriginTextBox.Font = new Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            OriginTextBox.Location = new Point(147, 44);
+            OriginTextBox.MaxLength = 8;
+            OriginTextBox.Name = "OriginTextBox";
+            OriginTextBox.Size = new Size(68, 22);
+            OriginTextBox.TabIndex = 5;
+            OriginTextBox.Text = "0";
+            OriginTextBox.KeyPress += OriginTextBox_KeyPress;
             // 
-            // FormatAddressesAsSixteenBitRadioButton
+            // AddressSize32BitRadioButton
             // 
-            FormatAddressesAsSixteenBitRadioButton.AutoSize = true;
-            FormatAddressesAsSixteenBitRadioButton.Checked = true;
-            FormatAddressesAsSixteenBitRadioButton.Location = new Point(147, 23);
-            FormatAddressesAsSixteenBitRadioButton.Margin = new Padding(2);
-            FormatAddressesAsSixteenBitRadioButton.Name = "FormatAddressesAsSixteenBitRadioButton";
-            FormatAddressesAsSixteenBitRadioButton.Size = new Size(56, 19);
-            FormatAddressesAsSixteenBitRadioButton.TabIndex = 3;
-            FormatAddressesAsSixteenBitRadioButton.TabStop = true;
-            FormatAddressesAsSixteenBitRadioButton.Text = "16-Bit";
-            FormatAddressesAsSixteenBitRadioButton.UseVisualStyleBackColor = true;
+            AddressSize32BitRadioButton.AutoSize = true;
+            AddressSize32BitRadioButton.Location = new Point(216, 23);
+            AddressSize32BitRadioButton.Margin = new Padding(2);
+            AddressSize32BitRadioButton.Name = "AddressSize32BitRadioButton";
+            AddressSize32BitRadioButton.Size = new Size(56, 19);
+            AddressSize32BitRadioButton.TabIndex = 3;
+            AddressSize32BitRadioButton.Text = "32-bit";
+            AddressSize32BitRadioButton.UseVisualStyleBackColor = true;
             // 
-            // FormatAddressesAsLabel
+            // AddressSize16BitRadioButton
             // 
-            FormatAddressesAsLabel.AutoSize = true;
-            FormatAddressesAsLabel.Location = new Point(6, 23);
-            FormatAddressesAsLabel.Margin = new Padding(2, 0, 2, 0);
-            FormatAddressesAsLabel.Name = "FormatAddressesAsLabel";
-            FormatAddressesAsLabel.Size = new Size(118, 15);
-            FormatAddressesAsLabel.TabIndex = 2;
-            FormatAddressesAsLabel.Text = "&Format Addresses as:";
+            AddressSize16BitRadioButton.AutoSize = true;
+            AddressSize16BitRadioButton.Checked = true;
+            AddressSize16BitRadioButton.Location = new Point(147, 23);
+            AddressSize16BitRadioButton.Margin = new Padding(2);
+            AddressSize16BitRadioButton.Name = "AddressSize16BitRadioButton";
+            AddressSize16BitRadioButton.Size = new Size(56, 19);
+            AddressSize16BitRadioButton.TabIndex = 2;
+            AddressSize16BitRadioButton.TabStop = true;
+            AddressSize16BitRadioButton.Text = "16-Bit";
+            AddressSize16BitRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // AddressSizeLabel
+            // 
+            AddressSizeLabel.AutoSize = true;
+            AddressSizeLabel.Location = new Point(66, 23);
+            AddressSizeLabel.Margin = new Padding(2, 0, 2, 0);
+            AddressSizeLabel.Name = "AddressSizeLabel";
+            AddressSizeLabel.Size = new Size(75, 15);
+            AddressSizeLabel.TabIndex = 1;
+            AddressSizeLabel.Text = "&Address Size:";
             // 
             // CopyAsBinaryToClipboardForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(391, 174);
+            ClientSize = new Size(379, 174);
             Controls.Add(MemoryAddressPanel);
             Controls.Add(BytesPerRowPanel);
             Controls.Add(SeparateByteBitsByPanel);
@@ -287,7 +287,6 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "Copy As Binary To Clipboard";
             Load += CopyAsBinaryToClipboardForm_Load;
-            ((System.ComponentModel.ISupportInitialize)OriginUpDown).EndInit();
             SeparateByteBitsByPanel.ResumeLayout(false);
             SeparateByteBitsByPanel.PerformLayout();
             BytesPerRowPanel.ResumeLayout(false);
@@ -301,7 +300,6 @@
         #endregion
 
         private Label labelSetOrigin;
-        private NumericUpDown OriginUpDown;
         private Button CopyButton;
         private Button button1;
         private CheckBox IncludeMemoryAddressCheckBox;
@@ -316,8 +314,9 @@
         private RadioButton OneBytePerRowRadioButton;
         private Label BytesPerRowLabel;
         private Panel MemoryAddressPanel;
-        private RadioButton FormatAddressesAsThirtyTwoBitRadioButton;
-        private RadioButton FormatAddressesAsSixteenBitRadioButton;
-        private Label FormatAddressesAsLabel;
+        private RadioButton AddressSize32BitRadioButton;
+        private RadioButton AddressSize16BitRadioButton;
+        private Label AddressSizeLabel;
+        private TextBox OriginTextBox;
     }
 }
