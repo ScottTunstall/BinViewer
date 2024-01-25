@@ -17,6 +17,9 @@ Here is an example showing some sprites from the Sinclair ZX Spectrum game "Mani
 
 <img width="455" alt="image" src="https://github.com/ScottTunstall/BinViewer/assets/34286887/29ab30ab-0e68-4892-ba54-9e3f7bdbc999">
 
+If you see any sprites you like and wish to clone (steal) for your own games, use the **Edit | Copy As Binary to clipboard** function. This will generate binary you can paste into your own assembly files. Here is a Manic Miner Miner Willy sprite extracted as binary:
+
+<img width="189" alt="image" src="https://user-images.githubusercontent.com/34286887/209685819-afeda96a-c334-464e-974b-850e985a7444.png">
 
 
 ### Keyboard shortcuts
@@ -27,13 +30,6 @@ You can zoom in or out with **CTRL+numpad plus/minus**, or input zoom factor int
 
 When the offset control is in focus, you can use **Page Up/Down** to page faster through the sprite data.
 
-
-
-### Special functions
-
-If you see any sprites you like and wish to clone (steal) for your own games, use the **Edit | Copy As Binary to clipboard** function. This will generate binary you can paste into your own assembly files. Here is a Manic Miner Miner Willy sprite extracted as binary:
-
-<img width="189" alt="image" src="https://user-images.githubusercontent.com/34286887/209685819-afeda96a-c334-464e-974b-850e985a7444.png">
 
 
 
