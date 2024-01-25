@@ -111,7 +111,7 @@ namespace BinViewer
             sb.Append(Environment.NewLine);
             sb.AppendJoin(Environment.NewLine, validationFailures);
 
-            MessageBox.Show(sb.ToString());
+            MessageBox.Show(this, sb.ToString());
         }
 
 
@@ -140,7 +140,7 @@ namespace BinViewer
 
         private void ShowCopyBinarySuccessDialog(int rowsCopied)
         {
-            MessageBox.Show($"Copied binary for {rowsCopied} row(s) to clipboard.");
+            MessageBox.Show(this, $"Copied binary for {rowsCopied} row(s) to clipboard.");
         }
 
 

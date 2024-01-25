@@ -35,22 +35,18 @@ namespace BinViewer
 
         private void offsetUpDown_KeyDown(object sender, KeyEventArgs e)
         {
-            var bytesPerRow = (int)bytesPerRowUpdown.Value;
-            var rows = (int)rowsUpDown.Value;
-            var step = bytesPerRow * rows;
-
             switch (e.KeyCode)
             {
                 case Keys.PageUp:
-                    offsetUpDown.Value -= step;
-                    offsetUpDown.Value = Math.Max(0, offsetUpDown.Value);
+                    PreviousPage();
                     break;
 
                 case Keys.PageDown:
-                    if (offsetUpDown.Value + step <= _maxOffset)
-                        offsetUpDown.Value += bytesPerRow * rows;
+                    NextPage();
                     break;
             }
+
+            pictureBox1.Invalidate();
         }
 
         private void offsetUpDown_ValueChanged(object sender, EventArgs e)
@@ -92,7 +88,6 @@ namespace BinViewer
         {
             CopyRenderAreaToClipboard();
         }
-
 
         private void resetZoomToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -170,7 +165,7 @@ namespace BinViewer
             }
             catch (Exception)
             {
-                MessageBox.Show($"The file{Environment.NewLine}'{fileName}`{Environment.NewLine} could not be loaded.");
+                ShowLoadFailDialog(fileName);
             }
         }
 
@@ -190,7 +185,7 @@ namespace BinViewer
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"{nameof(LoadFile)}: MISSINGFILE: could not load file: {fileName}");
-                
+
                 // It's not for this method to decide what to do if you can't load a file - throw it up to its caller
                 throw;
             }
@@ -205,6 +200,11 @@ namespace BinViewer
             ResetZoom();
             DisableEditing();
             pictureBox1.Invalidate();
+        }
+
+        private void ShowLoadFailDialog(string fileThatCouldntBeLoaded)
+        {
+            MessageBox.Show(this, $"The file{Environment.NewLine}'{fileThatCouldntBeLoaded}`{Environment.NewLine} could not be loaded.");
         }
 
         private void AddToMostRecentlyUsedFiles(string fileName)
@@ -252,7 +252,7 @@ namespace BinViewer
 
         private void ShowConfirmRemovalOfMissingFileDialog(string fileName)
         {
-            var result = MessageBox.Show($"The file or folder {Environment.NewLine}'{fileName}'{Environment.NewLine}cannot be opened. Do you want to remove the references to it from the recent list?", Title, MessageBoxButtons.YesNo);
+            var result = MessageBox.Show(this, $"The file or folder {Environment.NewLine}'{fileName}'{Environment.NewLine}cannot be opened. Do you want to remove the references to it from the recent list?", Title, MessageBoxButtons.YesNo);
             if (result != DialogResult.Yes)
                 return;
 
@@ -287,6 +287,26 @@ namespace BinViewer
         {
             _maxOffset = 0;
             offsetUpDown.Minimum = offsetUpDown.Maximum = _maxOffset;
+        }
+
+        private void PreviousPage()
+        {
+            var bytesPerRow = (int)bytesPerRowUpdown.Value;
+            var rows = (int)rowsUpDown.Value;
+            var step = bytesPerRow * rows;
+
+            offsetUpDown.Value -= step;
+            offsetUpDown.Value = Math.Max(0, offsetUpDown.Value);
+        }
+
+        private void NextPage()
+        {
+            var bytesPerRow = (int)bytesPerRowUpdown.Value;
+            var rows = (int)rowsUpDown.Value;
+            var step = bytesPerRow * rows;
+
+            if (offsetUpDown.Value + step <= _maxOffset)
+                offsetUpDown.Value += bytesPerRow * rows;
         }
 
         private void ResetZoom()
