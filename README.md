@@ -10,7 +10,7 @@ Select bytes per row (1 byte = 8 pixels width) and how many rows tall the pixel 
 
 This is trial and error - but persevere and reap rewards!
 
-Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80". Note how Gridlines are turned on. They are not enabled by default.
+Here is an example showing some sprites from the Sinclair ZX Spectrum game "Manic Miner.z80". Note how Gridlines are turned on. They are not enabled by default - to turn them on press CTRL+G together, or use the **View | Gridlines** menu option.
 
 (Continued after image)
 
@@ -20,9 +20,13 @@ Here is an example showing some sprites from the Sinclair ZX Spectrum game "Mani
 
 ### Keyboard shortcuts
 
+Use CTRL+G to toggle grid on/off. This lets you identify individual pixels in a sprite.
+
 You can zoom in or out with **CTRL+numpad plus/minus**, or input zoom factor into the zoom up/down control directly.
 
-When the offset control is in focus, you can use **Page Up/Down** to page faster through memory.
+When the offset control is in focus, you can use **Page Up/Down** to page faster through the sprite data.
+
+
 
 ### Special functions
 
@@ -42,7 +46,7 @@ BTW: Use at your own risk. It probably has MemorySteam memory leaks somewhere. I
 ## Next steps planned: 
 
 * show bytes as hex next to image
-* overlay grid  - DONE.   Select View menu then "Gridlines"
+* Create DATA statements for BASIC so that homebrew devs can create sprites too
 * Colour selectors for grid and pixels (not top of my list tbh)
 * Context menus for the bytes per column control and rows updown control. The former to have multiples of 2 and the latter to have multiples of 8 as dropdowns.
 
