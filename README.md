@@ -20,7 +20,7 @@ Here is an example showing some sprites from the Sinclair ZX Spectrum game "Mani
 
 ### Keyboard shortcuts
 
-Use CTRL+G to toggle grid on/off. This lets you identify individual pixels in a sprite.
+Use **CTRL+G** to toggle grid on/off. This lets you identify individual pixels in a sprite.
 
 You can zoom in or out with **CTRL+numpad plus/minus**, or input zoom factor into the zoom up/down control directly.
 
