@@ -3,7 +3,14 @@ View/ extract 1bpp pixel art/fonts from old arcade games/ spectrum / C64 / Amstr
 
 If you like this and want to see it continue to be developed, I accept cheap bribes: https://ko-fi.com/scotttunstall
 
-## How to use
+
+## How to build the source code
+
+I developed BinViewer with **Visual Studio 2022**, **.NET 6 SDK** and the **Microsoft Visual Studio Installer Projects 2022** extension. You will not be able to build the solution without this extension.
+
+
+
+## How to use the program
 
 When you run the app simply **File | Open** the ROM file you think has character/sprite data in it, then keep incrementing the offset up/down button until you see graphical data that looks promising. 
 
