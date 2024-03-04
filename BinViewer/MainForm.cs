@@ -4,6 +4,7 @@
 // If you like this app and want to buy me a coffee, feel free! https://ko-fi.com/scotttunstall
 //
 
+using BinViewer.Renderers;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

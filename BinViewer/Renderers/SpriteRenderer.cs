@@ -1,4 +1,4 @@
-﻿namespace BinViewer
+﻿namespace BinViewer.Renderers
 {
     public class SpriteRenderer
     {

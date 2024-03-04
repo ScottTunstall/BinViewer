@@ -64,7 +64,7 @@
             // CopyButton
             // 
             CopyButton.DialogResult = DialogResult.OK;
-            CopyButton.Location = new Point(12, 143);
+            CopyButton.Location = new Point(11, 143);
             CopyButton.Margin = new Padding(2);
             CopyButton.Name = "CopyButton";
             CopyButton.Size = new Size(78, 27);
@@ -77,7 +77,7 @@
             // 
             button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             button1.DialogResult = DialogResult.Cancel;
-            button1.Location = new Point(294, 143);
+            button1.Location = new Point(295, 143);
             button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(78, 27);
@@ -115,10 +115,10 @@
             SeparateByteBitsByPanel.Controls.Add(SeparateByNothingRadioButton);
             SeparateByteBitsByPanel.Controls.Add(seperateByCommaRadioButton);
             SeparateByteBitsByPanel.Controls.Add(seperateBySpaceRadioButton);
-            SeparateByteBitsByPanel.Location = new Point(11, 75);
+            SeparateByteBitsByPanel.Location = new Point(12, 75);
             SeparateByteBitsByPanel.Margin = new Padding(2);
             SeparateByteBitsByPanel.Name = "SeparateByteBitsByPanel";
-            SeparateByteBitsByPanel.Size = new Size(360, 26);
+            SeparateByteBitsByPanel.Size = new Size(361, 26);
             SeparateByteBitsByPanel.TabIndex = 6;
             // 
             // SeparateByteBitsByLabel
@@ -174,7 +174,7 @@
             BytesPerRowPanel.Location = new Point(12, 105);
             BytesPerRowPanel.Margin = new Padding(2);
             BytesPerRowPanel.Name = "BytesPerRowPanel";
-            BytesPerRowPanel.Size = new Size(360, 24);
+            BytesPerRowPanel.Size = new Size(361, 24);
             BytesPerRowPanel.TabIndex = 11;
             // 
             // BytesPerRowRadioButton
@@ -219,7 +219,7 @@
             MemoryAddressPanel.Controls.Add(AddressSizeLabel);
             MemoryAddressPanel.Controls.Add(SetOriginLabel);
             MemoryAddressPanel.Controls.Add(IncludeMemoryAddressCheckBox);
-            MemoryAddressPanel.Location = new Point(12, 4);
+            MemoryAddressPanel.Location = new Point(13, 5);
             MemoryAddressPanel.Margin = new Padding(2);
             MemoryAddressPanel.Name = "MemoryAddressPanel";
             MemoryAddressPanel.Size = new Size(360, 68);

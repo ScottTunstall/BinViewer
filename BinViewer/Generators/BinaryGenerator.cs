@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace BinViewer
+namespace BinViewer.Generators
 {
     public class BinaryGenerator
     {

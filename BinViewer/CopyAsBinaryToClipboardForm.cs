@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using BinViewer.Extensions;
+using BinViewer.Generators;
 
 namespace BinViewer
 {
@@ -46,7 +48,6 @@ namespace BinViewer
             e.KeyChar = char.ToUpper(keypressed);
         }
 
-
         private void CopyButton_Click(object sender, EventArgs e)
         {
             if (!TryValidateInput(out var validationFailures))
@@ -60,8 +61,6 @@ namespace BinViewer
 
             ShowCopyBinarySuccessDialog(rows);
         }
-
-
 
         private void SetOriginFormattingRadiosFromRequireOriginCheckbox()
         {
@@ -80,7 +79,6 @@ namespace BinViewer
             BytesPerRowRadioButton.Text = $"{_originalBytesPerRow} bytes per row";
         }
 
-
         private bool TryValidateInput(out IEnumerable<string> errors)
         {
             var errorList = new List<string>();
@@ -92,7 +90,7 @@ namespace BinViewer
                     errorList.Add("Origin is not a valid hexadecimal number.");
                 }
 
-                if (AddressSize16BitRadioButton.Checked && origin >ushort.MaxValue)
+                if (AddressSize16BitRadioButton.Checked && origin > ushort.MaxValue)
                 {
                     errorList.Add($"When formatting addresses as 16-bit, origin can only be between 0-0x{ushort.MaxValue:X}.");
                 }
@@ -101,7 +99,6 @@ namespace BinViewer
             errors = errorList;
             return !errors.Any();
         }
-
 
         private void ShowValidationFailureDialog(string title, IEnumerable<string> validationFailures)
         {
@@ -113,8 +110,6 @@ namespace BinViewer
 
             MessageBox.Show(this, sb.ToString());
         }
-
-
 
         private int CopyBinaryToClipboard()
         {
@@ -137,12 +132,10 @@ namespace BinViewer
             return rows;
         }
 
-
         private void ShowCopyBinarySuccessDialog(int rowsCopied)
         {
             MessageBox.Show(this, $"Copied binary for {rowsCopied} row(s) to clipboard.");
         }
-
 
         private (int bytesPerRow, int rows) GetBytesPerRowAndRows()
         {
@@ -168,6 +161,5 @@ namespace BinViewer
 
             return ",";
         }
-
     }
 }
